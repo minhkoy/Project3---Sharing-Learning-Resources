@@ -1,0 +1,85 @@
+* {
+
+}
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+
+#center_hr {
+    margin:auto;
+    margin-bottom: 20px;
+}
+
+body{
+    margin-bottom: 60px;
+    background: url("../images/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+}
+
+
+.form-floating > * {
+    color: black;
+}
+
+.nav {
+    background-color: sandybrown;
+    box-shadow: 0 4px 2px -2px gray;
+}
+
+.flex-container {
+    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    border: 2px solid black;
+    padding: 5px;
+    height: 250px;
+}
+
+.flex-item {
+    border-radius: 10px;
+    background-color: purple;
+    margin: 2px;
+    width: 200px;
+    height: 210px;
+}
+
+figcaption a {
+    color: coral;
+    text-decoration: none;
+}
+
+#search_btn {
+    margin-left: 2px;
+}
+
+.center_div {
+    margin: auto;
+}
+
+.xxx {
+    text-decoration: underline;
+}
+
+textarea {
+    resize: horizontal;
+}

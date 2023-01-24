@@ -1,0 +1,8 @@
+﻿@page
+@using Microsoft.AspNetCore.Authorization;
+@model OfficialProject3.Areas.Admin.Pages.IndexModel
+@attribute [Authorize(Roles = "Admin")]
+@{
+}
+
+<h2>Happy New Year!</h2>

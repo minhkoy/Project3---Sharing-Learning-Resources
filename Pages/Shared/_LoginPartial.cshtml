@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    string isAdmin = String.Empty;
+    if (User.IsInRole("Admin"))
+    {
+        isAdmin = "bg-success";
+    }
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello <div class="text-primary @isAdmin">@User.Identity?.Name!</div></a>
+    </li>
+    <li class="nav-item">
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
+            <button type="submit" class="nav-link btn btn-link text-dark">Đăng xuất</button>
+        </form>
+    </li>
+    }
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Đăng ký</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Đăng nhập</a>
+    </li>
+}
+</ul>

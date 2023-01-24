@@ -1,0 +1,9 @@
+﻿@page "{handler?}"
+@model OfficialProject3.Pages.AdvancedIT.IndexModel
+@{
+    ViewData["Title"] = "Tài liệu chuyên ngành CNTT & TT";
+}
+<h3 class="display-4 text-center"><b>@ViewData["Title"]</b></h3>
+<form method="post">
+    <button asp-page-handler="CreateItem" class="align-self-auto btn btn-primary" name="createItem">Tạo tài liệu chuyên ngành CNTT mới</button>
+</form>

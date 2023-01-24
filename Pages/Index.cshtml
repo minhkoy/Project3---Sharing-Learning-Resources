@@ -1,0 +1,98 @@
+﻿@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="container_no text-start">
+    <h3 class="display-4 text-center"><b>Thư viện số cho sinh viên Trường CNTT & TT</b></h3>
+    <hr class="w-50 " id="center_hr" />
+    <div class="input-group w-50 center_div">
+        <span class="input-group-text" id="basic-addon1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
+            </svg>
+        </span>
+        <input type="text" class="form-control" placeholder="Tìm kiếm" 
+        aria-label="Input group example" aria-describedby="basic-addon1">
+        <input type="submit" class="btn btn-light" id="search_btn" value="Tìm kiếm" />
+    </div>
+    <hr />
+    <section id="basic_section">
+        <div class="row">
+            <div class="col">
+                <h3>Tài liệu đại cương</h3>
+            </div>
+            <div class="col text-end">
+                <p class="bold"><a class="text-decoration-none" asp-page="/Basic/Index">Xem tất cả...</a></p>
+            </div>
+            <div class="flex-container">
+                <figure class="figure flex-item">
+                    <img src="~/images/banmoto1.png"
+                         alt="A generic square placeholder image with rounded corners in a figure."
+                         width="200" height="210" />
+                    <figcaption class="text-center"><a asp-page="ItemDetail">Môn Toán</a></figcaption>
+                    @*<figcaption class="text-center"><a asp-page="/Basic/Math">Môn Toán</a></figcaption>*@
+                </figure>
+                <figure class="figure flex-item">
+                    <img src="~/images/banmoto1.png"
+                         alt="A generic square placeholder image with rounded corners in a figure."
+                         width="200" height="210" />
+                    <figcaption class="text-center"><a asp-page="/Basic/English">Môn Tiếng Anh</a></figcaption>
+                </figure>
+                <figure class="figure flex-item">
+                    <img src="~/images/Road for motorcycles1.png"
+                         alt="A generic square placeholder image with rounded corners in a figure."
+                         width="200" height="210" />
+                    <figcaption class="text-center"><a asp-page="/Basic/Philosophy">Môn Triết học</a></figcaption>
+                </figure>
+                <figure class="figure flex-item">
+                    <img src="~/images/test.jpg" 
+                    alt="A generic square placeholder image with rounded corners in a figure."
+                         width="200" height="210" />
+                    <figcaption class="text-center"><a asp-page="/Basic/ChineseTaipei">Môn Chinese Taipei</a></figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+    <section id="basicIT_section">
+        <div class="row">
+            <div class="col">
+                <h3>Tài liệu cơ sở ngành</h3>
+            </div>
+            <div class="col text-end">
+                <p class="bold"><a class="text-decoration-none" asp-page="/BasicIT/Index">Xem tất cả...</a></p>
+            </div>
+        </div>
+        <div class="flex-container">
+            @for(int i = 1; i <= 10; i++)
+            {
+                <p>@i</p>
+            }
+        </div>
+    </section>
+    <section id="advancedIT_section">
+        <div class="row">
+            <div class="col">
+                <h3>Tài liệu chuyên ngành</h3>
+            </div>
+            <div class="col text-end">
+                <p class="bold"><a class="text-decoration-none" asp-area="" asp-page="/AdvancedIT/Index">Xem tất cả...</a></p>
+            </div>
+        </div>
+        <div class="row">
+        </div>
+    </section>
+    <section class="temp_section">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <p>You logined! Congrats!</p>
+        }
+        else
+        {
+            <i class="text-capitalize">You should login first.</i>
+        }
+        <p> There has been @Model.Views views!</p>
+    </section>
+</div>
