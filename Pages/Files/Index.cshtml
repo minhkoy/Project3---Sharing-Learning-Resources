@@ -1,4 +1,4 @@
-@page
+﻿@page
 @model OfficialProject3.Pages.Files.IndexModel
 
 @{
@@ -11,7 +11,7 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table text-white">
     <thead>
         <tr>
             <th>
@@ -27,7 +27,7 @@
                 @Html.DisplayNameFor(model => model.Item[0].SubjectCode)
             </th>
             <th>
-                //@Html.DisplayNameFor(model => model.Item[0].User)
+                @Html.DisplayNameFor(model => model.Item[0].User)
             </th>
             <th></th>
         </tr>
@@ -48,12 +48,18 @@
                 @Html.DisplayFor(modelItem => item.SubjectCode)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
+                @Html.DisplayFor(modelItem => item.User.UserName)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="btn btn-primary" asp-page="./Details" asp-route-id="@item.Id">Xem tài liệu</a>
+                @if (UserManager.GetUserId(User) == item.UserId)
+                {
+                    <a class="btn btn-warning" asp-page="./Edit" asp-route-id="@item.Id">Sửa thông tin tài liệu</a>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.Id">Xóa tài liệu này</a>
+                }
             </td>
         </tr>
 }
