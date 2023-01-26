@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
+#nullable disable
 namespace OfficialProject3.Models
 {
     public class Comment

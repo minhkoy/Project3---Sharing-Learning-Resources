@@ -2,3 +2,68 @@
 @model OfficialProject3.Pages.BasicIT.IndexModel
 @{
 }
+@{
+    ViewData["Title"] = "Tài liệu cơ sở ngành CNTT";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+<p class="text-center">
+    <a class="btn btn-outline-primary" asp-page="Create">Tạo mới</a>
+</p>
+<table class="table text-white">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Item[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Item[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Item[0].Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Item[0].SubjectCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Item[0].User)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Item)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubjectCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.UserName)
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-page="./Details" asp-route-id="@item.Id">Xem tài liệu</a>
+                    @if (UserManager.GetUserId(User) == item.UserId)
+                    {
+                        <a class="btn btn-warning" asp-page="./Edit" asp-route-id="@item.Id">Sửa thông tin tài liệu</a>
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.Id">Xóa tài liệu này</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

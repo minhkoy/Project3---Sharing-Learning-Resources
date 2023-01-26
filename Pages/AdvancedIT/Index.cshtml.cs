@@ -12,7 +12,7 @@ namespace OfficialProject3.Pages.AdvancedIT
         
         public IActionResult OnPostCreateItem()
         {
-            return RedirectToPage("../Files/CreateItem");
+            return RedirectToPage("/Files/Create");
         }
     }
 }
