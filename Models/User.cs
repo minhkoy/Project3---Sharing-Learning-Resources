@@ -9,14 +9,14 @@ namespace OfficialProject3.Models
         [Display(Name="Tên đầy đủ")]
         [Required]
         public string Name { get; set; }
-        [Display(Name = "Ngày sinh")]
+        [Display(Name = "Ngày sinh"), Required]
         public DateTime DateOfBirth { get; set; }
         [Display(Name = "Mô tả một chút về bản thân bạn nhé")]
-        public string Description { get; set; }
-        [Display(Name = "Trường học")]
+        public string? Description { get; set; }
+        [Display(Name = "Trường học"), Required]
         public string School { get; set; }
         [Display(Name = "Ngành học")]
-        public string Branch { get; set; }
+        public string? Branch { get; set; }
         public List<Item> Items { get; set; }
     }
 }

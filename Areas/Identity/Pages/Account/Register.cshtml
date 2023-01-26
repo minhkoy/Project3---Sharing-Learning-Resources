@@ -14,32 +14,32 @@
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.UserName" class="form-control" autocomplete="off" aria-required="true" placeholder="name" />
-                <label asp-for="Input.UserName">Tên đăng nhập</label>
+                <label asp-for="Input.UserName">Tên đăng nhập<span class="text-danger">(*)</span></label>
                 <span asp-validation-for="Input.UserName" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="off" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
+                <label asp-for="Input.Email">Email<span class="text-danger">(*)</span></label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="off" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Mật khẩu</label>
+                <label asp-for="Input.Password">Mật khẩu<span class="text-danger">(*)</span></label>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="off" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Xác thực mật khẩu</label>
+                <label asp-for="Input.ConfirmPassword">Xác thực mật khẩu<span class="text-danger">(*)</span></label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Name" class="form-control" autocomplete="off" aria-required="true" placeholder="Fullname" />
-                <label asp-for="Input.Name">Tên đầy đủ</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                <label asp-for="Input.Name">Tên đầy đủ<span class="text-danger">(*)</span></label>
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.DateOfBirth" class="form-control" autocomplete="off" aria-required="true" placeholder="01-01-1970" />
-                <label asp-for="Input.DateOfBirth">Ngày sinh</label>
+                <label asp-for="Input.DateOfBirth">Ngày sinh<span class="text-danger">(*)</span></label>
                 <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
@@ -49,7 +49,7 @@
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.School" class="form-control" autocomplete="off" aria-required="true" placeholder="none" />
-                <label asp-for="Input.School">Trường học</label>
+                <label asp-for="Input.School">Trường học<span class="text-danger">(*)</span></label>
                 <span asp-validation-for="Input.School" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
