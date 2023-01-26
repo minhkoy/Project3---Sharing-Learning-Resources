@@ -17,28 +17,27 @@ namespace OfficialProject3.Pages.Files
     public class CreateItemModel : PageModel
     {
         private readonly OfficialProject3.Data.ApplicationDbContext? _context;
-        private IWebHostEnvironment? _environment;
+        private IWebHostEnvironment _environment;
         private UserManager<User> _userManager;
-        public string tempType { get; set; } = String.Empty;
 
-        public CreateItemModel(ApplicationDbContext context, IWebHostEnvironment? environment,
+        public CreateItemModel(ApplicationDbContext context, IWebHostEnvironment environment,
             UserManager<User> userManager)
         {
             _context = context;
             _environment = environment;
             _userManager = userManager;
         }
-        public List<SelectListItem>? TypeList { get; } = new List<SelectListItem>
+        public List<SelectListItem> TypeList { get; } = new List<SelectListItem>
             {
                 new SelectListItem {Value = null, Disabled = true, Text = "Chọn thể loại tài liệu... "},
-                new SelectListItem {Value = "Basic", Text = "Đại cương"},
-                new SelectListItem {Value = "BasicIT", Text = "Cơ sở ngành CNTT"},
-                new SelectListItem {Value = "AdvancedIT", Text = "Chuyên ngành IT"}
+                new SelectListItem {Value = FileType.Basic.ToString(), Text = "Đại cương"},
+                new SelectListItem {Value = FileType.BasicIT.ToString(), Text = "Cơ sở ngành CNTT"},
+                new SelectListItem {Value = FileType.AdvancedIT.ToString(), Text = "Chuyên ngành IT"}
             };
 
-        public void OnGet(string type)
+        public void OnGet()
         {
-            tempType = type;
+            
         }
 
         [BindProperty]
@@ -54,29 +53,42 @@ namespace OfficialProject3.Pages.Files
             {
                 return Page();
             }
-
-            Item item = new Item(Input.Name, Input.Description, Input.Type,
-                Input.SubjectCode);
-            
-            ClaimsPrincipal currentUser = this.User;
-            item.UserId = _userManager.GetUserId(User);
-            
-            _context.Item.Add(item);
-            
-            await _context.SaveChangesAsync();
-
             var file = Input.File;
             if (file != null && file.Length > 0)
             {
-                var filePath = Path.Combine(_environment.ContentRootPath, "docs");
+                var dirPath = Path.GetFullPath("E:\\Temp");
+                if (!Directory.Exists(dirPath))
+                {
+                    Directory.CreateDirectory(dirPath);
+                }
+
+                var filePath = Path.Combine(dirPath, file.FileName);
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);
                 }
-                return RedirectToPage("/Index");
+                Item item = new Item(Input.Name, Input.Description, Input.Type,
+                    Input.SubjectCode, filePath, Input.UserId);
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    _context.Item.Add(item);
+                    _context.Database.ExecuteSql($"SET IDENTITY_INSERT Item ON");
+                    await _context.SaveChangesAsync();
+                    _context.Database.ExecuteSql($"SET IDENTITY_INSERT Item OFF");
+                    transaction.Commit();
+                }
+                return Redirect("/Index");
+                //try
+                //{
+                //    await _context.SaveChangesAsync();
+                //}
+                //catch (Exception e)
+                //{
+                //    Console.WriteLine($"EXCEPTION: {e.ToString()}");
+                //}
+                //return Page();
             }
-            
-            return Page();
+            else return Page();
         }
         [RequestSizeLimit(1 * 1024 * 1024)]
         public class InputModel
@@ -90,12 +102,13 @@ namespace OfficialProject3.Pages.Files
             public string Description { get; set; } = String.Empty;
             [Required(ErrorMessage = "Hãy chọn loại tài liệu!")]
             [Display(Name = "Thể loại")]
-            public string Type { get; set; } = String.Empty;
+            public FileType Type { get; set; }
             [Required(ErrorMessage = "Cần nhập mã môn học!"), Display(Name = "Mã môn học")]
             public string SubjectCode { get; set; } = String.Empty;
             [Required(ErrorMessage = "Hãy upload file!")]
             [Display(Name = "Hãy upload tài liệu của bạn ở đây!")]
-            public IFormFile? File { get; set; } = null;
+            public IFormFile File { get; set; }
+            public string UserId { get; set; }
         }
     }
 }

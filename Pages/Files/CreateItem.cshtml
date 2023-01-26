@@ -1,6 +1,7 @@
 ﻿@page "{itemType?}"
-@model OfficialProject3.Areas.CreateItemModel
+@model OfficialProject3.Pages.Files.CreateItemModel
 @using Microsoft.AspNetCore.Authorization;
+@using System.Security.Claims
 @attribute [Authorize]
 
 @{
@@ -8,7 +9,6 @@
 }
 
 <h1>Thêm tài liệu mới ở đây</h1>
-<h3>Item type: @Model.tempType</h3>
 
 <h4>Nhập thông tin về tài liệu ở dưới. Lưu ý điền đầy đủ thông tin!</h4>
 <hr />
@@ -49,7 +49,10 @@
                 <input asp-for="Input.File" class="form-control" />
                 <span asp-validation-for="Input.File" class="text-danger"></span>
             </div>
-            <div class="form-group a">
+            <div class="form-group">
+                <input type="hidden" id="user" asp-for="Input.UserId" value="@UserManager.GetUserId(User)" />
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>

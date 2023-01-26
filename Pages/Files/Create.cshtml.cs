@@ -36,7 +36,7 @@ namespace OfficialProject3.Pages.Files
         public async Task<IActionResult> OnPostAsync()
         {
             Item.UserId = _userManager.GetUserId(User);
-            Item.User = _context.Users.Where(user => Item.UserId == user.Id).FirstOrDefault();
+            //Item.User = _context.Users.Where(user => Item.UserId == user.Id).FirstOrDefault();
             if (!ModelState.IsValid || _context.Item == null || Item == null)
             {
                 return Page();

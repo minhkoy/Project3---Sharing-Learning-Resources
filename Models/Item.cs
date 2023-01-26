@@ -6,6 +6,15 @@ using System.Drawing;
 
 namespace OfficialProject3.Models
 {
+    public enum FileType
+    {
+        [Display(Name = "Đại cương")]
+        Basic,
+        [Display(Name = "Cơ sở ngành CNTT")]
+        BasicIT,
+        [Display(Name = "Chuyên ngành CNTT")]
+        AdvancedIT
+    }
     public class Item
     {
         private static int StaticID = 1;
@@ -14,7 +23,7 @@ namespace OfficialProject3.Models
         [Required(ErrorMessage="Hãy nhập tên file!")]
         public string Name { get; set; } = String.Empty;
         public string Description { get; set; } = String.Empty;
-        public string Type { get; set; } = String.Empty;
+        public FileType Type { get; set; }
         [NotMapped]
         public int ViewedCount { get; } = 0;
         [NotMapped]
@@ -25,13 +34,13 @@ namespace OfficialProject3.Models
         [Required(ErrorMessage = "Chưa có file nào được up lên!")]
         public string? FileLink { get; set; } = String.Empty;
         [ForeignKey("User")]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string UserId { get; set; }
         //Navigation props
         public User User { get; set; }
-        //public Image? Image { get; set; } = null;
         public Item() {}
-        public Item(string name, string description, string type,
-            string subjectCode, string fileLink) 
+        public Item(string name, string description, FileType type,
+            string subjectCode, string fileLink, string userId) 
         {
             Id = StaticID++;
             Name = name;
@@ -39,8 +48,9 @@ namespace OfficialProject3.Models
             Type = type;
             SubjectCode = subjectCode;
             FileLink = fileLink;
+            UserId = userId;
         }
-        public Item(string name, string description, string type, string subjectCode)
+        public Item(string name, string description, FileType type, string subjectCode)
         {
             Id = StaticID++;
             Name = name;
