@@ -42,7 +42,7 @@ namespace OfficialProject3.Models
         public Item(string name, string description, FileType type,
             string subjectCode, string fileLink, string userId) 
         {
-            Id = StaticID++;
+            Id = ++StaticID;
             Name = name;
             Description = description;
             Type = type;
