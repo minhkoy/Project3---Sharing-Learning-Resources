@@ -21,12 +21,26 @@ namespace OfficialProject3.Pages.Files
 
         public IList<Item> Item { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string? type)
         {
             if (_context.Item != null)
             {
-                Item = await _context.Item
-                .Include(i => i.User).ToListAsync();
+                var list = await _context.Item
+                    .Include(i => i.User).ToListAsync();
+                if (type == null)
+                {
+                    Item = list;
+                }
+                else
+                {
+                    //Type isn't defined
+                    if (!Enum.IsDefined(typeof(FileType), type))
+                    {
+                        RedirectToPage("/Error");
+                        return;
+                    }
+                    Item = list.Where(i => i.Type.ToString() == type).ToList();
+                }
             }
         }
     }

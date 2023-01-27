@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Official Project 3</title>
+    <title>@ViewData["Title"] - Project 3</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/OfficialProject3.styles.css" asp-append-version="true" />
@@ -25,13 +25,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Trang chủ</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Basic/Index">Tài liệu đại cương</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Files/Index" asp-route-type="Basic">Tài liệu đại cương</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/BasicIT/Index">Tài liệu cơ sở ngành</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Files/Index" asp-route-type="BasicIT">Tài liệu cơ sở ngành</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/AdvancedIT/Index">Tài liệu chuyên ngành</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Files/Index" asp-route-type="AdvancedIT">Tài liệu chuyên ngành</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />

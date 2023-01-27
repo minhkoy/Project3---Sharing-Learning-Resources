@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Folder Include="Pages\Admin" />
+    <Folder Include="Pages\Shared\Templates" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 

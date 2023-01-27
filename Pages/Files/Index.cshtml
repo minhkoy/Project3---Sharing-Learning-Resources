@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Pages/Shared/_Layout.cshtml";
+    var userId = UserManager.GetUserId(User);
 }
 
 <h1>Index</h1>
@@ -52,11 +53,11 @@
             </td>
             <td>
                 <a class="btn btn-primary" asp-page="./Details" asp-route-id="@item.Id">Xem tài liệu</a>
-                @if (UserManager.GetUserId(User) == item.UserId)
+                @if (userId == item.UserId)
                 {
                     <a class="btn btn-warning" asp-page="./Edit" asp-route-id="@item.Id">Sửa thông tin tài liệu</a>
                 }
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || userId == item.UserId)
                 {
                     <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.Id">Xóa tài liệu này</a>
                 }
