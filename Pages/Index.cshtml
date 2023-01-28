@@ -25,7 +25,7 @@
                 <h3>Tài liệu đại cương</h3>
             </div>
             <div class="col text-end">
-                <p class="bold"><a class="text-decoration-none" asp-page="/Basic/Index">Xem tất cả...</a></p>
+                <p class="bold"><a class="text-decoration-none" asp-page="/Files/Index" asp-route-type="Basic">Xem tất cả...</a></p>
             </div>
             <div class="flex-container">
                 <figure class="figure flex-item">
@@ -62,7 +62,7 @@
                 <h3>Tài liệu cơ sở ngành</h3>
             </div>
             <div class="col text-end">
-                <p class="bold"><a class="text-decoration-none" asp-page="/BasicIT/Index">Xem tất cả...</a></p>
+                <p class="bold"><a class="text-decoration-none" asp-page="/Files/Index" asp-route-type="BasicIT">Xem tất cả...</a></p>
             </div>
         </div>
         <div class="flex-container">
@@ -78,21 +78,10 @@
                 <h3>Tài liệu chuyên ngành</h3>
             </div>
             <div class="col text-end">
-                <p class="bold"><a class="text-decoration-none" asp-area="" asp-page="/AdvancedIT/Index">Xem tất cả...</a></p>
+                <p class="bold"><a class="text-decoration-none" asp-area="" asp-page="/Files/Index" asp-route-type="AdvancedIT">Xem tất cả...</a></p>
             </div>
         </div>
         <div class="row">
         </div>
-    </section>
-    <section class="temp_section">
-        @if (SignInManager.IsSignedIn(User))
-        {
-            <p>You logined! Congrats!</p>
-        }
-        else
-        {
-            <i class="text-capitalize">You should login first.</i>
-        }
-        <p> There has been @Model.Views views!</p>
     </section>
 </div>

@@ -18,7 +18,6 @@ namespace OfficialProject3.Pages.Files
         {
             _context = context;
         }
-
         public IList<Item> Item { get;set; } = default!;
 
         public async Task OnGetAsync(string? type)
@@ -36,7 +35,7 @@ namespace OfficialProject3.Pages.Files
                     //Type isn't defined
                     if (!Enum.IsDefined(typeof(FileType), type))
                     {
-                        RedirectToPage("/Error");
+                        NotFound();
                         return;
                     }
                     Item = list.Where(i => i.Type.ToString() == type).ToList();

@@ -13,13 +13,15 @@ namespace OfficialProject3.Pages.Files
     public class DetailsModel : PageModel
     {
         private readonly OfficialProject3.Data.ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _environment;
 
-        public DetailsModel(OfficialProject3.Data.ApplicationDbContext context)
+        public DetailsModel(OfficialProject3.Data.ApplicationDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
-      public Item Item { get; set; } = default!; 
+        public Item Item { get; set; } = default!; 
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -36,6 +38,11 @@ namespace OfficialProject3.Pages.Files
             else 
             {
                 Item = item;
+            }
+            var filePath = Item.FileLink;
+            if (System.IO.File.Exists(filePath))
+            {
+                
             }
             return Page();
         }

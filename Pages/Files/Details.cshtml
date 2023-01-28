@@ -1,12 +1,12 @@
-@page
+﻿@page
 @model OfficialProject3.Pages.Files.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Item.Name;
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>@ViewData["Title"]</h1>
 
 <div>
     <h4>Item</h4>
@@ -40,11 +40,27 @@
             @Html.DisplayNameFor(model => model.Item.User)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Item.User.Id)
+            @Html.DisplayFor(model => model.Item.User.Name)
         </dd>
+        <dd class="col-sm-2">
+            Xem tai lieu:
+        </dd>
+        <div id="file">
+
+        </div>
     </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.Item?.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
+    @if (UserManager.GetUserId(User) == Model.Item.UserId)
+    {
+        <a asp-page="./Edit" asp-route-id="@Model.Item?.Id" class="btn btn-outline-primary">
+            <i class="bi bi-pencil"></i> Edit
+        </a>
+    }
+    <a asp-page="./Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-90deg-left"></i> Back to List
+    </a>
+    <a class="btn btn-warning">
+        <i class="bi bi-exclamation-triangle-fill"></i> Báo cáo tài liệu vi phạm
+    </a>
 </div>
