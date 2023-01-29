@@ -74,12 +74,15 @@
 @*Comment part ------*@
 <h2>Bình luận</h2>
 <br />
-@foreach(var comment in Model.CommentList)
+@if(Model.CommentList != null)
 {
-    <div>
-        <span class="fw-bold m-1">@comment.User.Name</span>
-        <span class="text-white m-1">@comment.Content</span>
-    </div>
+    @foreach (var comment in Model.CommentList)
+    {
+        <div>
+            <span class="fw-bold m-1">@comment.User.Name</span>
+            <span class="text-white m-1">@comment.Content</span>
+        </div>
+    }
 }
 
 <hr />

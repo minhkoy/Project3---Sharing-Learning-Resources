@@ -37,7 +37,11 @@ namespace OfficialProject3.Pages.Files
             }
 
             var item = await _context.Item.FirstOrDefaultAsync(m => m.Id == id);
-            CommentList = await _context.Comment.Where(c => c.ItemId == id).ToListAsync();
+            CommentList = _context.Comment.Where(c => c.ItemId == id).ToList();
+            foreach(var comment in CommentList)
+            {
+                comment.User = _context.Users.Where(u => comment.UserId == u.Id).FirstOrDefault();
+            }
             if (item == null)
             {
                 return NotFound();
@@ -59,8 +63,6 @@ namespace OfficialProject3.Pages.Files
             {
                 return Page();
             }
-            Comment.Item = _context.Item.Where(i => i.Id == Comment.ItemId).FirstOrDefault();
-            Comment.User = _context.Users.Where(u => u.Id == Comment.UserId).FirstOrDefault();
             Comment.Id = Guid.NewGuid().ToString();
             _context.Comment.Add(Comment);
             await _context.SaveChangesAsync();
