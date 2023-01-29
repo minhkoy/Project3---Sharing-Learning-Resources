@@ -4,12 +4,14 @@
 @{
     ViewData["Title"] = Model.Item.Name;
     Layout = "~/Pages/Shared/_Layout.cshtml";
+    bool authen = SignInManager.IsSignedIn(User); //(bool)ViewData["isAuthen"];
+    var user = UserManager.GetUserAsync(User);
 }
 
 <h1>@ViewData["Title"]</h1>
 
 <div>
-    <h4>Item</h4>
+    <h4>Chi tiết tài liệu</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -54,13 +56,45 @@
     @if (UserManager.GetUserId(User) == Model.Item.UserId)
     {
         <a asp-page="./Edit" asp-route-id="@Model.Item?.Id" class="btn btn-outline-primary">
-            <i class="bi bi-pencil"></i> Edit
+            <i class="bi bi-pencil"></i> Sửa thông tin tài liệu
         </a>
     }
     <a asp-page="./Index" class="btn btn-secondary">
-        <i class="bi bi-arrow-90deg-left"></i> Back to List
+        <i class="bi bi-arrow-90deg-left"></i> Trở về danh sách
     </a>
-    <a class="btn btn-warning">
-        <i class="bi bi-exclamation-triangle-fill"></i> Báo cáo tài liệu vi phạm
-    </a>
+    @if (authen)
+    {
+        <a class="btn btn-warning">
+            <i class="bi bi-exclamation-triangle-fill"></i> Báo cáo tài liệu vi phạm
+        </a>
+    }
 </div>
+<br />
+
+@*Comment part ------*@
+<h2>Bình luận</h2>
+<br />
+@foreach(var comment in Model.CommentList)
+{
+    <div>
+        <span class="fw-bold m-1">@comment.User.Name</span>
+        <span class="text-white m-1">@comment.Content</span>
+    </div>
+}
+
+<hr />
+
+@if (authen)
+{
+    <form id="comment" method="post">
+        <textarea class="form-control" rows="3" asp-for="Comment.Content"
+        placeholder="Viết bình luận ở đây" required></textarea>
+        <span asp-validation-for="Comment.Content" class="text-danger"></span>
+        <input type="submit" class="btn btn-primary mt-2" value="Đăng bình luận">
+        <input type="hidden" asp-for="Comment.ItemId" value="@Model.Item.Id">
+        <input type="hidden" asp-for="Comment.UserId" value="@UserManager.GetUserId(User)">
+    </form>
+}
+else {
+    <p class="text-info fw-bold">Bạn phải đăng nhập để có thể bình luận</p>
+}

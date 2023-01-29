@@ -21,5 +21,6 @@ namespace OfficialProject3.Data
         }
 
         public DbSet<Item> Item { get; set; } = default!;
+        public DbSet<Comment> Comment { get; set; } = default!;
     }
 }
