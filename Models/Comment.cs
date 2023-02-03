@@ -15,6 +15,8 @@ namespace OfficialProject3.Models
         public int ItemId { get; set; }
         [Required(ErrorMessage = "Hãy nhập bình luận")]
         public string Content { get; set; }
+        [DataType(DataType.DateTime), Display(Name = "Ngày đăng")]
+        public DateTime CommentDate { get; set; }
         public int Upvote { get; set; } = 0;
         public int Downvote { get; set; } = 0;
         //Navigation properties

@@ -2,4 +2,7 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-import JQuery from '/VisualStudioFiles/source/repos/--ASP.NET--/OfficialProject3/wwwroot/lib/jquery/jquery'
+import JQuery from '/VisualStudioFiles/source/repos/--ASP.NET--/Project3/wwwroot/lib/jquery/jquery'
+$(document).load(function () {
+    
+})
