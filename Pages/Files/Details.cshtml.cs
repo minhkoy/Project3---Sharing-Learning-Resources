@@ -37,7 +37,7 @@ namespace OfficialProject3.Pages.Files
             }
 
             var item = await _context.Item.FirstOrDefaultAsync(m => m.Id == id);
-            CommentList = _context.Comment.Where(c => c.ItemId == id).ToList();
+            CommentList = _context.Comment.Where(c => c.ItemId == id).OrderByDescending(c => c.CommentDate).ToList();
             foreach(var comment in CommentList)
             {
                 comment.User = _context.Users.Where(u => comment.UserId == u.Id).FirstOrDefault();

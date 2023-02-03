@@ -63,6 +63,10 @@ namespace OfficialProject3.Pages.Files
                 }
 
                 var filePath = Path.Combine(dirPath, file.FileName);
+                if(System.IO.File.Exists(filePath))
+                {
+                    
+                }
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);

@@ -7,10 +7,10 @@
     var userId = UserManager.GetUserId(User);
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>@ViewData["Title"] có thể loại @Html.DisplayFor(model => model.Item[0].Type)</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Tạo mới</a>
 </p>
 <table class="table text-white">
     <thead>
@@ -18,9 +18,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Item[0].Name)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Item[0].Description)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Item[0].Type)
             </th>
@@ -39,9 +39,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Description)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Type)
             </td>

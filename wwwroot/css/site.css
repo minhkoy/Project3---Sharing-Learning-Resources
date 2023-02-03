@@ -83,3 +83,7 @@ figcaption a {
 textarea {
     resize: horizontal;
 }
+
+.disabled {
+    pointer-events: none;
+}
