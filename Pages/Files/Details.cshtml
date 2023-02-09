@@ -46,7 +46,7 @@
             @Html.DisplayFor(model => model.Item.User.Name)
         </dd>
         <dd class="col-sm-2">
-            Xem tai lieu:
+            Xem tài liệu: 
         </dd>
         <div id="file">
 
@@ -90,11 +90,17 @@
     {
         <div>
             <div>
-                <span class="fw-bold m-2">@comment.User.Name</span>
-                <span class="text-white m-2">@comment.Content</span>
+                <span class="fw-bold mt-2 mb-1" style="margin-right: 5px;">@comment.User.Name</span>
+                <span class="text-white mt-2 mb-1">@comment.Content</span>
             </div>
-            <i class="bi bi-hand-thumbs-up m-2"></i>
-            <i class="bi bi-hand-thumbs-down m-2"></i>
+            <span class="mt-1 mb-1">
+                <i class="bi bi-hand-thumbs-up"></i>
+                <span class="text-white">@comment.Upvote</span>
+            </span>
+            <span class="mt-1 mb-1">
+                <i class="bi bi-hand-thumbs-down"></i>
+                <span class="text-white">@comment.Downvote</span>
+            </span>
             <span class="text-secondary m-2">@comment.CommentDate</span>
             @if (userId == comment.UserId)
             {
