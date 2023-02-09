@@ -5,10 +5,9 @@
     ViewData["Title"] = $"Danh sách các tài liệu";
     Layout = "~/Pages/Shared/_Layout.cshtml";
     var userId = UserManager.GetUserId(User);
-    var isAdmin = User.IsInRole("Admin");
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>@ViewData["Title"] có thể loại @Html.DisplayFor(model => model.Item[0].Type)</h1>
 
 <p>
     <a asp-page="Create">Tạo mới</a>
@@ -19,12 +18,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Item[0].Name)
             </th>
-            @if(isAdmin)
-            {
-                <th>
-                    @Html.DisplayNameFor(model => model.Item[0].Type)
-                </th>
-            }
+            @*<th>
+                @Html.DisplayNameFor(model => model.Item[0].Description)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Item[0].Type)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Item[0].SubjectCode)
             </th>
@@ -40,12 +39,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            @if(isAdmin)
-            {
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-            }
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SubjectCode)
             </td>

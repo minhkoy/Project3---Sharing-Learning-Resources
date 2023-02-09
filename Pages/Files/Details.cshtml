@@ -6,6 +6,7 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
     bool authen = SignInManager.IsSignedIn(User); //(bool)ViewData["isAuthen"];
     var user = UserManager.GetUserAsync(User);
+    var userId = UserManager.GetUserId(User);
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -53,13 +54,13 @@
     </dl>
 </div>
 <div>
-    @if (UserManager.GetUserId(User) == Model.Item.UserId)
+    @if (userId == Model.Item.UserId)
     {
         <a asp-page="./Edit" asp-route-id="@Model.Item?.Id" class="btn btn-outline-primary">
             <i class="bi bi-pencil"></i> Sửa thông tin tài liệu
         </a>
     }
-    <a asp-page="./Index" class="btn btn-secondary" asp-route-type="@Model.Item.Type">
+    <a asp-page="./Index" asp-route-type="@Model.Item?.Type" class="btn btn-info">
         <i class="bi bi-arrow-90deg-left"></i> Trở về danh sách
     </a>
     @if (authen)
@@ -69,30 +70,41 @@
         </a>
     }
 </div>
+<div>
+    @if (authen)
+    {
+        <a class="btn btn-primary mt-2">Tải xuống</a>
+    }
+    else
+    {
+        <a class="btn btn-secondary mt-2 disabled">Tải xuống</a>
+    }
+</div>
 <br />
 
 @*Comment part ------*@
-<h2>Bình luận</h2>
-<br />
+<h2 class="mb-4">Bình luận</h2>
 @if(Model.CommentList != null)
 {
     @foreach (var comment in Model.CommentList)
     {
         <div>
-            <span class="fw-bold m-1 mb-2">@comment.User.Name</span>
-            <span class="text-white m-1 mb-2">@comment.Content</span>
-            <span class="text-secondary m-1 mb-2">@comment.CommentDate</span>
-        </div>
-        <div>
-            <span class="m-2">
-                <i class="bi bi-hand-thumbs-up m-1"></i>
-                <span class="text-white m-1">@comment.Upvote</span>
-            </span>
-            <span class="m-2">
-                <i class="bi bi-hand-thumbs-down m-1"></i>
-                <span class="text-white m-1">@comment.Downvote</span>
-            </span>
-
+            <div>
+                <span class="fw-bold m-2">@comment.User.Name</span>
+                <span class="text-white m-2">@comment.Content</span>
+            </div>
+            <i class="bi bi-hand-thumbs-up m-2"></i>
+            <i class="bi bi-hand-thumbs-down m-2"></i>
+            <span class="text-secondary m-2">@comment.CommentDate</span>
+            @if (userId == comment.UserId)
+            {
+                <a href="#" class="text-danger">Xóa bình luận</a>
+                <a href="#" class="text-primary m-1">Chỉnh sửa...</a>
+            }
+            @if (authen && userId != comment.UserId)
+            {
+                <a href="#" class="text-warning m-1">Báo cáo vi phạm</a>
+            }
         </div>
     }
 }
@@ -106,6 +118,7 @@
         placeholder="Viết bình luận ở đây" required></textarea>
         <span asp-validation-for="Comment.Content" class="text-danger"></span>
         <input type="submit" class="btn btn-primary mt-2" value="Đăng bình luận">
+        <input type="hidden" asp-for="Comment.CommentDate" value="@DateTime.Now">
         <input type="hidden" asp-for="Comment.ItemId" value="@Model.Item.Id">
         <input type="hidden" asp-for="Comment.UserId" value="@UserManager.GetUserId(User)">
     </form>
