@@ -17,6 +17,8 @@ namespace OfficialProject3.Models
         public string Content { get; set; }
         public int Upvote { get; set; } = 0;
         public int Downvote { get; set; } = 0;
+        [DisplayFormat(DataFormatString = "dd-MM-YYYY")]
+        public DateTime CommentDate { get; set; }
         //Navigation properties
         [Display(Name = "Người đăng")]
         public User User { get; set; }
