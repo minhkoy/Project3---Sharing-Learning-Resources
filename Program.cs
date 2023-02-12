@@ -71,6 +71,54 @@ app.UseAuthorization();
     pattern: "Admin/"
 ); */
 
+var comments = app.MapGroup("/comments");
+comments.MapGet("/", async (ApplicationDbContext context) =>
+{
+    return await context.Comment.ToListAsync();
+    //return context.Comment;
+});
+
+comments.MapGet("/{id}", async (string id, ApplicationDbContext context) =>
+{
+    var comment = await context.Comment.FindAsync(id);
+    if (comment == null) return Results.NotFound();
+    else return Results.Ok(comment);
+});
+
+comments.MapPost("/", async (Comment comment, ApplicationDbContext context) => {
+    context.Comment.Add(comment);
+    await context.SaveChangesAsync();
+    return Results.Created($"/comment/{comment.Id}", comment);
+});
+
+comments.MapPatch("/{vote}", async (string id, string vote, ApplicationDbContext context) =>
+{
+    var comment = await context.Comment.FindAsync(id);
+    if (comment == null) return Results.NotFound();
+    if (vote.Equals("upvote"))
+    {
+        comment.Upvote++;
+        await context.SaveChangesAsync();
+        return Results.Ok(comment);
+    }
+    else if(vote.Equals("downvote"))
+    {
+        comment.Downvote++;
+        await context.SaveChangesAsync();
+        return Results.Ok(comment);
+    }
+    else
+    {
+        return Results.NotFound();
+    }
+});
+
+/*var reports = app.MapGroup("/reports");
+reports.MapGet("/", async (ApplicationDbContext context) =>
+    {
+        //return await
+    }
+);*/
 app.MapRazorPages();
 
 app.MapHub<UserOnlineHub>("/GetUserOnline");

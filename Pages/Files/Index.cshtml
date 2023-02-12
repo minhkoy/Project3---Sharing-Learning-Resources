@@ -13,6 +13,7 @@
 <p>
     <a asp-page="Create">Tạo mới</a>
 </p>
+
 <table class="table text-white">
     <thead>
         <tr>
@@ -35,7 +36,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Item) {
+    @foreach (var item in Model.Item) 
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -64,6 +66,16 @@
                 }
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
+
+<button type="button" class="btn btn-outline-success" onclick="commentCount()">Check the number of comments</button>
+<script>
+    function commentCount() {
+        fetch("/comments/22c9cecc-a234-4fae-9aa6-fe4e3fcc10b1")
+        .then((response) => response.json())
+        .then((data) => alert(data.content))
+        .catch((error) => alert(error))
+    }
+</script>
