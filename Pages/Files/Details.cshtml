@@ -94,7 +94,7 @@
                 <span class="text-white mt-2 mb-1">@comment.Content</span>
             </div>
             <span class="mt-1 mb-1 upvote_btn" id="@comment.Id">
-                <a class="w-100 text-decoration-none text-white"@* onclick="upvoteClick()"*@>
+                <a class="w-100 text-decoration-none text-white">
                     <i class="bi bi-hand-thumbs-up"></i>
                 </a>
                 <span class="text-white">@comment.Upvote</span>
@@ -122,12 +122,59 @@
             <span class="text-secondary m-2">@comment.CommentDate</span>
             @if (userId == comment.UserId)
             {
-                <a href="#" class="text-danger">Xóa bình luận</a>
+                <a href="#" class="text-danger m-1">Xóa bình luận</a>
                 <a href="#" class="text-primary m-1">Chỉnh sửa...</a>
             }
             @if (authen && userId != comment.UserId)
-            {
-                <a href="#" class="text-warning m-1">Báo cáo vi phạm</a>
+            {         
+                <button type="button" class="btn btn-link text-warning p-0" 
+                data-bs-toggle="modal" data-bs-target="#reportComment">Báo cáo vi phạm</button>
+                <!-- Modal reportComment-->
+                <div class="modal fade text-black" id="reportComment" tabindex="-1"
+                aria-labelledby="reportCommentLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Báo cáo bình luận</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" id="form">
+                                    <div class="mb-3">
+                                        <label for="report-title" class="col-form-label">Tiêu đề:</label>
+                                        <input type="text" class="form-control fw-bold" 
+                                        id="recipient-name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="report-content" class="col-form-label">Nội dung:</label>
+                                        <textarea class="form-control" id="message-text"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="report-content" class="col-form-label">Mật khẩu của bạn:</label>
+                                        <input type="password" class="form-control" id="message-text">
+                                    </div>
+                                    <div>
+                                        <a class="text-decoration-none" data-bs-toggle="tooltip" data-bs-placement="top" 
+                                        title="Chúng tôi muốn đảm bảo đó là bạn, cũng là một cách để hạn chế những báo cáo rác hay những việc xóa tài khoản oan sai.">
+                                            <i class="bi bi-info-circle-fill"></i> Vì sao chúng tôi cần mật khẩu của bạn?
+                                        </a>
+                                    </div>
+                                    <script>
+                                        document.querySelector('[data-bs-toggle="tooltip]').tooltip();
+                                    </script>
+                                    <div>
+                                        <input type="hidden" id="commentId" value="@comment.Id">
+                                        <input type="hidden" id="commentType" value="@ReportType.CommentReport">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                <input type="submit" class="btn btn-warning" value="Báo cáo" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
         </div>
     }

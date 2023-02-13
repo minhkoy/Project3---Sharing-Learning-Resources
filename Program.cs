@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficialProject3.Data;
 using OfficialProject3.Hubs;
@@ -119,6 +120,15 @@ reports.MapGet("/", async (ApplicationDbContext context) =>
         //return await
     }
 );*/
+
+var reports = app.MapGroup("/reports");
+reports.MapPost("/", async (Report r, ApplicationDbContext db) =>
+{
+    await db.Report.AddAsync(r);
+    await db.SaveChangesAsync();
+    return Results.Ok();
+});
+
 app.MapRazorPages();
 
 app.MapHub<UserOnlineHub>("/GetUserOnline");
