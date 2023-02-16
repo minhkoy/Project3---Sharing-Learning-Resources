@@ -1,0 +1,26 @@
+﻿@page
+@model OfficialProject3.Pages.Admin.IndexModel
+@{
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Trang quản trị";
+    var isAdmin = User.IsInRole("Admin");
+}
+
+@if (!isAdmin)
+{
+    <h2 class="text-danger">Bạn không có quyền truy cập vào trang này! </h2>
+    return;
+}
+
+<h4>@ViewData["Title"]</h4>
+
+<section class="">
+    <div class="d">
+        <div class="flex-item">
+            <a asp-page="/Reports/Index" class="btn btn-warning">Danh sách các báo cáo vi phạm </a>
+        </div>
+        <div class="flex-item">
+            <a asp-page="User/Index" class="btn btn-info">Danh sách người dùng</a>
+        </div>
+    </div>
+</section>

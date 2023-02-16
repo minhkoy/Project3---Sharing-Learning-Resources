@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using OfficialProject3.Data;
-using OfficialProject3.Models;
 
 namespace OfficialProject3.Pages.Files
 {
@@ -20,7 +14,7 @@ namespace OfficialProject3.Pages.Files
         }
 
         [BindProperty]
-      public Item Item { get; set; } = default!;
+        public Item Item { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -35,7 +29,7 @@ namespace OfficialProject3.Pages.Files
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Item = item;
             }

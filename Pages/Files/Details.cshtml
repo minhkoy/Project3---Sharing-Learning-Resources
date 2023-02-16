@@ -1,8 +1,8 @@
-﻿@page
+﻿@page "/{id}"
 @model OfficialProject3.Pages.Files.DetailsModel
 
 @{
-    ViewData["Title"] = Model.Item.Name;
+    ViewData["Title"] = "Chi tiết tài liệu";
     Layout = "~/Pages/Shared/_Layout.cshtml";
     bool authen = SignInManager.IsSignedIn(User); //(bool)ViewData["isAuthen"];
     var user = UserManager.GetUserAsync(User);
@@ -11,6 +11,11 @@
 
 <h1>@ViewData["Title"]</h1>
 
+@if (@Model.Item == null)
+{
+    <h3>Error!</h3>
+    return;
+}
 <div>
     <h4>Chi tiết tài liệu</h4>
     <hr />
@@ -65,9 +70,62 @@
     </a>
     @if (authen)
     {
-        <a class="btn btn-warning" id="reportBtn">
-            <i class="bi bi-exclamation-triangle-fill" onclick="test()"></i> Báo cáo tài liệu vi phạm
+        <a class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reportFile">
+            <i class="bi bi-exclamation-triangle-fill"></i> Báo cáo tài liệu vi phạm
         </a>
+        <!-- Modal -->
+        <div class="modal fade text-black" id="reportFile" tabindex="-1"
+         aria-labelledby="reportFileLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <form class="modal-content" method="post" id="report_file_form"
+                asp-page-handler="ReportFile" asp-route-id="@Model.Item.Id">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="reportFileLabel">Báo cáo tài liệu</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <div class="mb-3">
+                                <label class="col-form-label">Tài liệu:</label>
+                                <span type="text" class="form-control disabled" disabled>@Model.Item?.Name</span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="title" class="col-form-label">Tiêu đề:</label>
+                                <input type="text" class="form-control fw-bold"
+                                   asp-for="FileReport.Title" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="report_content" class="col-form-label">Nội dung:</label>
+                                <textarea class="form-control" asp-for="FileReport.Content"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="col-form-label">Mật khẩu của bạn:</label>
+                                <input type="password" class="form-control" required>
+                            </div>
+                            <div>
+                                <a class="text-decoration-none" data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="Chúng tôi muốn đảm bảo đó là bạn, cũng là một cách để hạn chế những báo cáo rác hay những việc xóa tài khoản oan sai.">
+                                    <i class="bi bi-info-circle-fill"></i> Vì sao chúng tôi cần mật khẩu của bạn?
+                                </a>
+                            </div>
+                            <div>
+                                @{
+                                    var id = Guid.NewGuid();
+                                }
+                                <input type="hidden" asp-for="FileReport.Id" value="@id">
+                                <input type="hidden" asp-for="FileReport.UserId" value="@userId">
+                                <input type="hidden" asp-for="FileReport.ItemId" value="@Model.Item?.Id">
+                                <input type="hidden" asp-for="FileReport.ReportType" value="@ReportType.FileReport">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <input type="submit" class="btn btn-warning" id="reportBtn" value="Báo cáo" />
+                    </div>
+                </form>
+            </div>
+        </div>
     }
 </div>
 <div>
@@ -93,7 +151,7 @@
                 <span class="fw-bold mt-2 mb-1" style="margin-right: 5px;">@comment.User.Name</span>
                 <span class="text-white mt-2 mb-1">@comment.Content</span>
             </div>
-            <span class="mt-1 mb-1 upvote_btn" id="@comment.Id">
+            <span class="mt-1 mb-1 upvote_btn" id="">
                 <a class="w-100 text-decoration-none text-white">
                     <i class="bi bi-hand-thumbs-up"></i>
                 </a>
@@ -105,25 +163,15 @@
                 </a>
                 <span class="text-white">@comment.Downvote</span>
             </span>
-            <script>
-                document.getElementById('@comment.Id').addEventListener('click',
-                    function () {
-                        fetch("/comments/upvote?" + new URLSearchParams({
-                            id: "@comment.Id",
-                        })
-                        )
-                            .then((response) => response.json())
-                            .then((data) => alert(data))
-                            .catch((error) => alert("Có lỗi " + error + " xảy ra."));
-                        //return false;
-                    }
-                )
-            </script>
             <span class="text-secondary m-2">@comment.CommentDate</span>
             @if (userId == comment.UserId)
             {
-                <a href="#" class="text-danger m-1">Xóa bình luận</a>
-                <a href="#" class="text-primary m-1">Chỉnh sửa...</a>
+                <form method="post" asp-page-handler="DeleteComment">
+                    <button href="#" class="btn btn-link text-danger m-1" id="@comment.Id"
+                            asp-page-handler="DeleteComment" asp-route-commentId="@comment.Id"
+                    >Xóa bình luận</button>
+                    <a class="text-primary m-1">Chỉnh sửa...</a>
+                </form>
             }
             @if (authen && userId != comment.UserId)
             {         
@@ -133,25 +181,26 @@
                 <div class="modal fade text-black" id="reportComment" tabindex="-1"
                 aria-labelledby="reportCommentLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
+                        <form class="modal-content" method="post" id="report_comment_form"
+                              asp-page-handler="ReportComment" asp-page-id="@Model.Item.Id">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Báo cáo bình luận</h1>
+                                <h1 class="modal-title fs-5" id="reportCommentLabel">Báo cáo bình luận</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form method="post" id="form">
+                                <div>
                                     <div class="mb-3">
                                         <label for="report-title" class="col-form-label">Tiêu đề:</label>
                                         <input type="text" class="form-control fw-bold" 
-                                        id="recipient-name" required>
+                                        id="recipient-name" asp-for="CommentReport.Title" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="report-content" class="col-form-label">Nội dung:</label>
-                                        <textarea class="form-control" id="message-text"></textarea>
+                                        <textarea class="form-control" id="message-text" asp-for="CommentReport.Content"></textarea>
                                     </div>
                                     <div class="mb-3">
                                         <label for="report-content" class="col-form-label">Mật khẩu của bạn:</label>
-                                        <input type="password" class="form-control" id="message-text">
+                                        <input type="password" class="form-control" id="userpassword">
                                     </div>
                                     <div>
                                         <a class="text-decoration-none" data-bs-toggle="tooltip" data-bs-placement="top" 
@@ -159,24 +208,60 @@
                                             <i class="bi bi-info-circle-fill"></i> Vì sao chúng tôi cần mật khẩu của bạn?
                                         </a>
                                     </div>
-                                    <script>
-                                        document.querySelector('[data-bs-toggle="tooltip]').tooltip();
-                                    </script>
                                     <div>
-                                        <input type="hidden" id="commentId" value="@comment.Id">
-                                        <input type="hidden" id="commentType" value="@ReportType.CommentReport">
+                                        <input type="hidden" id="commentId" value="@comment.Id"
+                                        asp-for="CommentReport.CommentId">
+                                        <input type="hidden" id="commentType" value="@ReportType.CommentReport"
+                                        asp-for="CommentReport.ReportType">
+                                        <input type="hidden" value="@userId" asp-for="CommentReport.UserId">
+                                        <input type="hidden" id="reportJson" 
+                                            value="@Json.Serialize(Model.CommentReport)">
                                     </div>
-                                </form>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                <input type="submit" class="btn btn-warning" value="Báo cáo" />
+                                <input type="submit" class="btn btn-warning" value="Báo cáo"
+                                id="reportComment_btn"/>
+                            </div>                           
+                            <div class="alert alert-success" id="test" role="alert" aria-hidden="true">
+                                Thêm báo cáo thành công!
                             </div>
-                        </div>
+                        </form>
+                        <script>
+                            document.getElementById('reportComment_btn').addEventListener('click', function() {
+                                document.getElementById('test').style.display = 'block'
+                            })
+                        </script>
                     </div>
                 </div>
             }
         </div>
+        <script>
+            //document.getElementById('@comment.Id').addEventListener('click',
+            //    function () {
+            //        fetch("/comments/upvote?" + new URLSearchParams({
+            //            id: "@comment.Id",
+            //        }), {
+            //            headers: {
+            //                "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+            //            }
+            //        })
+
+            //            .then((response) => response.json())
+            //            .then((data) => alert(data))
+            //            .catch((error) => alert("Có lỗi " + error + " xảy ra."));
+            //        //return false;
+            //    }
+            //)
+            //document.getElementById('@comment.Id').addEventListener('click', function () {
+            //    fetch(`/comments/{@comment.Id}`, {
+            //        method: 'delete'
+            //    })
+            //        .then((response) => alert(response.status))
+            //        .catch((error) => alert("Co loi!"))
+            //})
+        </script>
     }
 }
 
@@ -184,13 +269,14 @@
 
 @if (authen)
 {
-    <form id="comment" method="post">
+    <form id="comment" method="post" asp-page-handler="CreateComment"
+    asp-route-id="@Model.Item.Id">
         <textarea class="form-control" rows="3" asp-for="Comment.Content"
         placeholder="Viết bình luận ở đây" required></textarea>
         <span asp-validation-for="Comment.Content" class="text-danger"></span>
         <input type="submit" class="btn btn-primary mt-2" value="Đăng bình luận">
         <input type="hidden" asp-for="Comment.CommentDate" value="@DateTime.Now">
-        <input type="hidden" asp-for="Comment.ItemId" value="@Model.Item.Id">
+        <input type="hidden" asp-for="Comment.ItemId" value="@Model.Item?.Id">
         <input type="hidden" asp-for="Comment.UserId" value="@UserManager.GetUserId(User)">
     </form>
 }

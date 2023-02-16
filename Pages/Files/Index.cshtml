@@ -70,12 +70,12 @@
     </tbody>
 </table>
 
-<button type="button" class="btn btn-outline-success" onclick="commentCount()">Check the number of comments</button>
+@*<button type="button" class="btn btn-outline-success" onclick="commentCount()">Check the number of comments</button>
 <script>
     function commentCount() {
         fetch("/comments/22c9cecc-a234-4fae-9aa6-fe4e3fcc10b1")
-        .then((response) => response.json())
-        .then((data) => alert(data.content))
+        .then((response) => (response.json()))
+        .then((data) => alert(JSON.stringify(data)))
         .catch((error) => alert(error))
     }
-</script>
+</script>*@

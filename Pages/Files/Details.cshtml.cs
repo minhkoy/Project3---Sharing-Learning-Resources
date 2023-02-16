@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using OfficialProject3.Data;
-using OfficialProject3.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace OfficialProject3.Pages.Files
 {
@@ -25,7 +20,11 @@ namespace OfficialProject3.Pages.Files
             _environment = environment;
             _userManager = userManager;
         }
-        public Item Item { get; set; } = default!;
+        public Item? Item { get; set; } = default!;
+        [BindProperty]
+        public Report CommentReport { get; set; } = default!;
+        [BindProperty]
+        public Report FileReport { get; set; }
         [BindProperty]
         public Comment Comment { get; set; } = default!;
         public IList<Comment> CommentList { get; set; } = default!;
@@ -41,7 +40,7 @@ namespace OfficialProject3.Pages.Files
             item.User = await _context.Users.Where(u => u.Id == item.UserId).FirstOrDefaultAsync();
 #nullable enable
             CommentList = _context.Comment.Where(c => c.ItemId == id).OrderByDescending(c => c.CommentDate).ToList();
-            foreach(var comment in CommentList)
+            foreach (var comment in CommentList)
             {
                 comment.User = _context.Users.Where(u => comment.UserId == u.Id).FirstOrDefault();
             }
@@ -49,27 +48,67 @@ namespace OfficialProject3.Pages.Files
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Item = item;
             }
             var filePath = Item.FileLink;
             //if (System.IO.File.Exists(filePath))
             //{
-                
+
             //}
             return Page();
         }
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostCreateCommentAsync(int id, string? commentId)
         {
-            if (!ModelState.IsValid)
+            if (id == 0 || _context.Item == null)
             {
                 return Page();
             }
+            await OnGetAsync(id);
+            //Item = await _context.Item.FirstOrDefaultAsync(m => m.Id == id);
+            //CommentList = _context.Comment.Where(c => c.ItemId == id).OrderByDescending(c => c.CommentDate).ToList();
+            //foreach (var comment in CommentList)
+            //{
+            //    comment.User = _context.Users.Where(u => comment.UserId == u.Id).FirstOrDefault();
+            //}
+            /*if (!ModelState.IsValid)
+            {
+                return Page();
+            } */
             Comment.Id = Guid.NewGuid().ToString();
             _context.Comment.Add(Comment);
+            
             await _context.SaveChangesAsync();
-            return RedirectToPage("/Files/Details", new {id = Comment.ItemId});
+            return RedirectToPage();
+            //return LocalRedirect($"/{Item.Id}");
+        }
+        public async Task<IActionResult> OnPostDeleteCommentAsync(int id, string? commentId)
+        {
+            await OnGetAsync(id);    
+            if (commentId == null || _context.Comment == null)
+            {
+                return NotFound();
+            }
+            var comment = await _context.Comment.FindAsync(commentId);
+
+            if (comment != null)
+            {
+                Comment = comment;
+                _context.Comment.Remove(Comment);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage();
+            //return LocalRedirect($"/{Item.Id}");
+        }
+        public async Task<IActionResult> OnPostReportCommentAsync(int id)
+        {
+            _context.Report.Add(CommentReport);
+            await _context.SaveChangesAsync();
+            await OnGetAsync(id);
+            Console.WriteLine($"REPORT: {CommentReport.ToString()}");
+            return RedirectToPage();
         }
     }
 }

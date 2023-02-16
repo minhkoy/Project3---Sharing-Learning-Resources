@@ -2,20 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using OfficialProject3.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace OfficialProject3.Areas.Identity.Pages.Account
 {
@@ -39,10 +30,10 @@ namespace OfficialProject3.Areas.Identity.Pages.Account
 
         public class InputModel
         {
- 
+
             [Required]
             [StringLength(18)]
-            public string UserName { get; set; }     
+            public string UserName { get; set; }
             [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }

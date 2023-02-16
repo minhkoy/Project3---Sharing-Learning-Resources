@@ -1,8 +1,6 @@
 ﻿//using Microsoft.Build.Framework;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Drawing;
 
 namespace OfficialProject3.Models
 {
@@ -19,7 +17,7 @@ namespace OfficialProject3.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required(ErrorMessage="Hãy nhập tên file!")]
+        [Required(ErrorMessage = "Hãy nhập tên file!")]
         [Display(Name = "Tên tài liệu")]
         public string Name { get; set; } = String.Empty;
         [Display(Name = "Mô tả")]
@@ -43,9 +41,9 @@ namespace OfficialProject3.Models
         [Display(Name = "Tác giả")]
         //Navigation props
         public User User { get; set; }
-        public Item() {}
+        public Item() { }
         public Item(string name, string description, FileType type,
-            string subjectCode, string fileLink, string userId) 
+            string subjectCode, string fileLink, string userId)
         {
             Random rand = new Random();
             Id = rand.Next(100000000);

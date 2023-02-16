@@ -45,7 +45,7 @@ body{
     box-shadow: 0 4px 2px -2px gray;
 }
 
-.flex-container {
+/*.flex-container {
     margin: 20px;
     display: flex;
     justify-content: space-between;
@@ -61,7 +61,7 @@ body{
     margin: 2px;
     width: 200px;
     height: 210px;
-}
+}*/
 
 figcaption a {
     color: coral;
@@ -76,9 +76,9 @@ figcaption a {
     margin: auto;
 }
 
-.xxx {
+/*.xxx {
     text-decoration: underline;
-}
+}*/
 
 textarea {
     resize: horizontal;
@@ -86,4 +86,5 @@ textarea {
 
 .disabled {
     pointer-events: none;
+    background-color: #adb5bd;
 }

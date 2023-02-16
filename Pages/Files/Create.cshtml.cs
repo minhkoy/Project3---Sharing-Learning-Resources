@@ -1,15 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 //using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OfficialProject3.Data;
-using OfficialProject3.Models;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 namespace OfficialProject3.Pages.Files
@@ -37,7 +33,7 @@ namespace OfficialProject3.Pages.Files
 
         public void OnGet()
         {
-            
+
         }
 
         [BindProperty]
@@ -63,9 +59,9 @@ namespace OfficialProject3.Pages.Files
                 }
 
                 var filePath = Path.Combine(dirPath, file.FileName);
-                if(System.IO.File.Exists(filePath))
+                if (System.IO.File.Exists(filePath))
                 {
-                    
+
                 }
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {

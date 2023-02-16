@@ -4,15 +4,10 @@
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Serialization;
-using OfficialProject3.Data;
-using OfficialProject3.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -105,9 +100,16 @@ namespace OfficialProject3.Areas.Identity.Pages.Account
                     ModelState.AddModelError(String.Empty, "Đã có email này tồn tại!");
                     return Page(); 
                 } */
-                var user = new User { UserName = Input.UserName, Email = Input.Email, 
-                    Name = Input.Name, DateOfBirth = Input.DateOfBirth, Description = Input.Description,
-                    School = Input.School, Branch = Input.Branch};
+                var user = new User
+                {
+                    UserName = Input.UserName,
+                    Email = Input.Email,
+                    Name = Input.Name,
+                    DateOfBirth = Input.DateOfBirth,
+                    Description = Input.Description,
+                    School = Input.School,
+                    Branch = Input.Branch
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

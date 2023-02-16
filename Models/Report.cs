@@ -23,6 +23,9 @@ namespace OfficialProject3.Models
         public string Content { get; set; } = string.Empty;
         [Display(Name = "Loại báo cáo")]
         public ReportType ReportType { get; set; }
+        [ForeignKey("Reporter")]
+        public string UserId { get; set; }
+        public User Reporter { get; set; }
         //Only apply when the report type is File Report
         [ForeignKey("ReportedItem")]
         public int? ItemId { get; set; }
