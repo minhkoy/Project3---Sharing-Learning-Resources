@@ -13,7 +13,7 @@
 
 @if (@Model.Item == null)
 {
-    <h3>Error!</h3>
+    <h3 class="text-danger">Rất tiếc, đã có lỗi xảy ra.</h3>
     return;
 }
 <div>
@@ -50,12 +50,12 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Item.User.Name)
         </dd>
-        <dd class="col-sm-2">
+        <dt class="col-sm-2">
             Xem tài liệu: 
+        </dt>
+        <dd>
+            <a href=""></a>
         </dd>
-        <div id="file">
-
-        </div>
     </dl>
 </div>
 <div>
@@ -78,7 +78,7 @@
          aria-labelledby="reportFileLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <form class="modal-content" method="post" id="report_file_form"
-                asp-page-handler="ReportFile" asp-route-id="@Model.Item.Id">
+                asp-page-handler="ReportFile" asp-route-id="@Model.Item?.Id">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="reportFileLabel">Báo cáo tài liệu</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -131,7 +131,7 @@
 <div>
     @if (authen)
     {
-        <a class="btn btn-primary mt-2">Tải xuống</a>
+        <a class="btn btn-primary mt-2" href="@Model.Item?.FileLink">Tải xuống</a>
     }
     else
     {
@@ -182,7 +182,7 @@
                 aria-labelledby="reportCommentLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <form class="modal-content" method="post" id="report_comment_form"
-                              asp-page-handler="ReportComment" asp-page-id="@Model.Item.Id">
+                              asp-page-handler="ReportComment" asp-page-id="@Model.Item?.Id">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="reportCommentLabel">Báo cáo bình luận</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -270,7 +270,7 @@
 @if (authen)
 {
     <form id="comment" method="post" asp-page-handler="CreateComment"
-    asp-route-id="@Model.Item.Id">
+    asp-route-id="@Model.Item?.Id">
         <textarea class="form-control" rows="3" asp-for="Comment.Content"
         placeholder="Viết bình luận ở đây" required></textarea>
         <span asp-validation-for="Comment.Content" class="text-danger"></span>

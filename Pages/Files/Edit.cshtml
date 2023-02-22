@@ -1,9 +1,8 @@
-@page
+﻿@page
 @model OfficialProject3.Pages.Files.EditModel
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 <h1>Edit</h1>
@@ -27,13 +26,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="Item.Type" class="control-label"></label>
-                <input asp-for="Item.Type" class="form-control" />
+                <select asp-for="Item.Type" class="form-control"></select>
                 <span asp-validation-for="Item.Type" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Item.SubjectCode" class="control-label"></label>
                 <input asp-for="Item.SubjectCode" class="form-control" />
                 <span asp-validation-for="Item.SubjectCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Item.FileLink" class="control-label"></label>
+                <input asp-for="Item.FileLink" class="form-control" />
+                <span asp-validation-for="Item.FileLink" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Item.UserId" class="control-label"></label>

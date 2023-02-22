@@ -26,12 +26,15 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 }    
 ); */
 
-/*builder.Services.AddAuthorization(options =>
+builder.Services.AddAuthorization(options =>
 {
-    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser()
-        .Build();
-}); */
+    options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+});
+
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/Admin", "AdminPolicy");
+});
 
 builder.Services.AddSignalR();
 

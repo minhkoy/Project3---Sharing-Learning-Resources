@@ -47,6 +47,10 @@ namespace OfficialProject3.Pages.Files
             if (item != null)
             {
                 Item = item;
+                var reportsToDelete = await _context.Report.Where(r => r.ItemId == Item.Id).ToListAsync();
+                if (reportsToDelete.Count != 0) _context.Report.RemoveRange(reportsToDelete);
+                var commentsToDelete = await _context.Comment.Where(c => c.ItemId == Item.Id).ToListAsync();
+                if (commentsToDelete.Count != 0) _context.Comment.RemoveRange(commentsToDelete);
                 _context.Item.Remove(Item);
                 await _context.SaveChangesAsync();
             }

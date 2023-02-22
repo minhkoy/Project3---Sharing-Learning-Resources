@@ -95,7 +95,9 @@ namespace OfficialProject3.Pages.Files
             if (comment != null)
             {
                 Comment = comment;
+                var relatedReports = _context.Report.Where(r => r.CommentId == comment.Id);
                 _context.Comment.Remove(Comment);
+                _context.Report.RemoveRange(relatedReports);
                 await _context.SaveChangesAsync();
             }
 
@@ -107,7 +109,7 @@ namespace OfficialProject3.Pages.Files
             _context.Report.Add(CommentReport);
             await _context.SaveChangesAsync();
             await OnGetAsync(id);
-            Console.WriteLine($"REPORT: {CommentReport.ToString()}");
+            Console.WriteLine($"REPORT: {CommentReport.Content}");
             return RedirectToPage();
         }
     }

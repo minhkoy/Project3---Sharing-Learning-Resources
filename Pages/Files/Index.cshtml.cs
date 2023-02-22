@@ -11,7 +11,9 @@ namespace OfficialProject3.Pages.Files
         {
             _context = context;
         }
+        //public PaginatedList<Item> Item { get; set; } = default!;
         public IList<Item> Item { get; set; } = default!;
+        public string InputType { get; set; } = String.Empty;
 
         public async Task OnGetAsync(string? type)
         {
@@ -31,6 +33,7 @@ namespace OfficialProject3.Pages.Files
                         NotFound();
                         return;
                     }
+                    InputType = type;
                     Item = list.Where(i => i.Type.ToString() == type).ToList();
                 }
             }

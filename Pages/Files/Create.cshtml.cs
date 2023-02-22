@@ -59,6 +59,10 @@ namespace OfficialProject3.Pages.Files
                 }
 
                 var filePath = Path.Combine(dirPath, file.FileName);
+                if (!new string[]{"DOC", "DOCX", "PDF", "TXT", "PPT", "PPTX"}.Contains(Path.GetExtension(filePath).ToUpper())) {
+                    ModelState.AddModelError(key: "File", errorMessage: "Chỉ chấp nhận các file có định dạng DOC, DOCX, PDF, TXT, PPT, PPTX");
+                    return Page();
+                }
                 if (System.IO.File.Exists(filePath))
                 {
 

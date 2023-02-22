@@ -1,10 +1,11 @@
 ﻿@page
 @model AccessDeniedModel
 @{
-    ViewData["Title"] = "Access denied";
+    ViewData["Title"] = "Truy cập bị từ chối";
 }
 
 <header>
     <h1 class="text-danger">@ViewData["Title"]</h1>
-    <p class="text-danger">You do not have access to this resource.</p>
+    @*<p class="text-danger">Truy cập bị từ chối.</p>*@
+    <h4 class="text-white">Hãy bấm vào <a asp-page="/Index">đây</a> để trở về trang chủ</h4>
 </header>

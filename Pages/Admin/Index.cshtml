@@ -9,18 +9,19 @@
 @if (!isAdmin)
 {
     <h2 class="text-danger">Bạn không có quyền truy cập vào trang này! </h2>
+    <h2 class="text-white">Nhấn vào <a asp-page="/Index">đây</a> để trở lại trang chủ.</h2>
     return;
 }
 
 <h4>@ViewData["Title"]</h4>
 
 <section class="">
-    <div class="d">
-        <div class="flex-item">
-            <a asp-page="/Reports/Index" class="btn btn-warning">Danh sách các báo cáo vi phạm </a>
-        </div>
-        <div class="flex-item">
-            <a asp-page="User/Index" class="btn btn-info">Danh sách người dùng</a>
-        </div>
+    <div class="d-flex">
+        <span class="flex-item">
+            <a asp-page="./Reports/Index" class="btn btn-warning m-1">Danh sách các báo cáo vi phạm </a>
+        </span>
+        <span class="flex-item">
+            <a asp-page="./Users/Index" class="btn btn-info m-1">Danh sách người dùng</a>
+        </span>
     </div>
 </section>
