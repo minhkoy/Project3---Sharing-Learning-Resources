@@ -28,3 +28,8 @@
 ////        .then((data) => alert("Result: ", JSON.stringify(data)))
 ////        .catch((error) => alert(error))
 ////})
+
+document.getElementById('upvote_btn').addEventListener('click', (event) => {
+    var xhr = new XMLHttpRequest();
+    xhr.open('PATCH', '/comments/')
+})

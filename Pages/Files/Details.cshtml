@@ -54,7 +54,8 @@
             Xem tài liệu: 
         </dt>
         <dd>
-            <a href=""></a>
+            <iframe src="https://onedrive.live.com/edit.aspx?action=editnew&resid=34969B307C2E6C79!107&ithint=file%2cdocx&action=editnew&ct=1678360714590&wdNewAndOpenCt=1678360714590&wdPreviousSession=c191acaf-20de-4146-8e60-2edbcf96395e&wdOrigin=OFFICECOM-WEB.MAIN.NEW"
+                    height="750" style="border: none;" class="w-100"></iframe>
         </dd>
     </dl>
 </div>
@@ -146,12 +147,13 @@
 {
     @foreach (var comment in Model.CommentList)
     {
+        <input type="hidden" id="comment_@comment.Id" value="" />
         <div>
             <div>
                 <span class="fw-bold mt-2 mb-1" style="margin-right: 5px;">@comment.User.Name</span>
                 <span class="text-white mt-2 mb-1">@comment.Content</span>
             </div>
-            <span class="mt-1 mb-1 upvote_btn" id="">
+            <span class="mt-1 mb-1" id="upvote_btn">
                 <a class="w-100 text-decoration-none text-white">
                     <i class="bi bi-hand-thumbs-up"></i>
                 </a>

@@ -5,6 +5,7 @@ namespace OfficialProject3.Pages.Files
 {
     public class IndexModel : PageModel
     {
+        public string CurrentFilter { get; set; }
         private readonly OfficialProject3.Data.ApplicationDbContext _context;
 
         public IndexModel(OfficialProject3.Data.ApplicationDbContext context)
@@ -15,12 +16,26 @@ namespace OfficialProject3.Pages.Files
         public IList<Item> Item { get; set; } = default!;
         public string InputType { get; set; } = String.Empty;
 
-        public async Task OnGetAsync(string? type)
+        public async Task OnGetAsync(string? type, string searchString)
         {
+            CurrentFilter = searchString;
             if (_context.Item != null)
             {
-                var list = await _context.Item
-                    .Include(i => i.User).ToListAsync();
+                IList<Item> list = new List<Item>();
+                if (String.IsNullOrEmpty(searchString)) 
+                {
+                    list = await _context.Item
+                        .Include(i => i.User)
+                        .ToListAsync();
+                }
+                else
+                {
+                    list = await _context.Item
+                        .Include(i => i.User)
+                        .Where(i => i.Name.Contains(searchString))
+                        .ToListAsync();
+                }
+
                 if (type == null)
                 {
                     Item = list;
@@ -38,5 +53,9 @@ namespace OfficialProject3.Pages.Files
                 }
             }
         }
+        //public async Task OnPostAsync(string? filterString)
+        //{
+
+        //}
     }
 }

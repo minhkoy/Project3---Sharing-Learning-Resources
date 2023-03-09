@@ -24,7 +24,7 @@ namespace OfficialProject3.Pages.Files
         [BindProperty]
         public Report CommentReport { get; set; } = default!;
         [BindProperty]
-        public Report FileReport { get; set; }
+        public Report? FileReport { get; set; }
         [BindProperty]
         public Comment Comment { get; set; } = default!;
         public IList<Comment> CommentList { get; set; } = default!;
@@ -53,15 +53,15 @@ namespace OfficialProject3.Pages.Files
                 Item = item;
             }
             var filePath = Item.FileLink;
-            //if (System.IO.File.Exists(filePath))
-            //{
-
-            //}
+            if (System.IO.File.Exists(filePath))
+            {
+                
+            }
             return Page();
         }
-        public async Task<IActionResult> OnPostCreateCommentAsync(int id, string? commentId)
+        public async Task<IActionResult> OnPostCreateCommentAsync(int? id, string? commentId)
         {
-            if (id == 0 || _context.Item == null)
+            if (id == null || _context.Item == null)
             {
                 return Page();
             }
