@@ -15,5 +15,5 @@ Until now, it's quite OK on: <br>
 
 |Status|Works|
 |------|-----|
-|OK    |View users' reports & details
-|OK    |Can delete junk documents
+|**OK**    |View users' reports & details
+|**OK**    |Can delete junk documents

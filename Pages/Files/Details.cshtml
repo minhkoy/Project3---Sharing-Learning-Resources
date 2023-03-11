@@ -154,16 +154,18 @@
                 <span class="text-white mt-2 mb-1">@comment.Content</span>
             </div>
             <span class="mt-1 mb-1" id="upvote_btn">
-                <a class="w-100 text-decoration-none text-white">
+                <a class="w-100 text-decoration-none text-white upvoteCmt_btn"
+                   id="@comment.Id">
                     <i class="bi bi-hand-thumbs-up"></i>
                 </a>
-                <span class="text-white">@comment.Upvote</span>
+                <span class="text-white" id="upvoteCmt_count_@comment.Id">@comment.Upvote</span>
             </span>
             <span class="mt-1 mb-1" id="downvote_btn">
-                <a href="#" class="w-100 text-decoration-none text-white" onclick="downvoteClick()">
+                <a class="w-100 text-decoration-none text-white downvoteCmt_btn"
+                    id="@comment.Id">
                     <i class="bi bi-hand-thumbs-down"></i>
                 </a>
-                <span class="text-white">@comment.Downvote</span>
+                <span class="text-white" id="downvoteCmt_count_@comment.Id">@comment.Downvote</span>
             </span>
             <span class="text-secondary m-2">@comment.CommentDate</span>
             @if (userId == comment.UserId)
@@ -226,44 +228,16 @@
                                 <input type="submit" class="btn btn-warning" value="Báo cáo"
                                 id="reportComment_btn"/>
                             </div>                           
-                            <div class="alert alert-success" id="test" role="alert" aria-hidden="true">
-                                Thêm báo cáo thành công!
-                            </div>
                         </form>
-                        <script>
+                        @*<script>
                             document.getElementById('reportComment_btn').addEventListener('click', function() {
                                 document.getElementById('test').style.display = 'block'
                             })
-                        </script>
+                        </script>*@
                     </div>
                 </div>
             }
         </div>
-        <script>
-            //document.getElementById('@comment.Id').addEventListener('click',
-            //    function () {
-            //        fetch("/comments/upvote?" + new URLSearchParams({
-            //            id: "@comment.Id",
-            //        }), {
-            //            headers: {
-            //                "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
-            //            }
-            //        })
-
-            //            .then((response) => response.json())
-            //            .then((data) => alert(data))
-            //            .catch((error) => alert("Có lỗi " + error + " xảy ra."));
-            //        //return false;
-            //    }
-            //)
-            //document.getElementById('@comment.Id').addEventListener('click', function () {
-            //    fetch(`/comments/{@comment.Id}`, {
-            //        method: 'delete'
-            //    })
-            //        .then((response) => alert(response.status))
-            //        .catch((error) => alert("Co loi!"))
-            //})
-        </script>
     }
 }
 

@@ -29,7 +29,30 @@
 ////        .catch((error) => alert(error))
 ////})
 
-document.getElementById('upvote_btn').addEventListener('click', (event) => {
-    var xhr = new XMLHttpRequest();
-    xhr.open('PATCH', '/comments/')
-})
+let upvoteBtns = document.querySelectorAll(".upvoteCmt_btn");
+
+for (let element of upvoteBtns) {
+    let commentId = element.id
+    element.addEventListener('click', function () {
+        fetch(`comments/upvote?id=${commentId}`)
+            .then((res) => res.json())
+            .catch((error) => alert(error))
+        let x = parseInt(document.getElementById(`upvoteCmt_count_${commentId}`).textContent, 10)
+        x++;
+        document.getElementById(`upvoteCmt_count_${commentId}`).textContent = x.toString();
+    })
+}
+
+let downvoteBtns = document.querySelectorAll(".downvoteCmt_btn");
+
+for (let element of downvoteBtns) {
+    let commentId = element.id
+    element.addEventListener('click', function () {
+        fetch(`comments/downvote?id=${commentId}`)
+            .then((res) => res.json())
+            .catch((error) => alert(error))
+        let x = parseInt(document.getElementById(`downvoteCmt_count_${commentId}`).textContent, 10)
+        x++;
+        document.getElementById(`downvoteCmt_count_${commentId}`).textContent = x.toString();
+    })
+}

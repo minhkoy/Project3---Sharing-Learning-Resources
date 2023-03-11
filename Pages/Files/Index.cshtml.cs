@@ -1,46 +1,43 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 namespace OfficialProject3.Pages.Files
 {
     public class IndexModel : PageModel
     {
-        public string CurrentFilter { get; set; }
         private readonly OfficialProject3.Data.ApplicationDbContext _context;
 
         public IndexModel(OfficialProject3.Data.ApplicationDbContext context)
         {
             _context = context;
         }
-        //public PaginatedList<Item> Item { get; set; } = default!;
-        public IList<Item> Item { get; set; } = default!;
+        public string CurrentFilter { get; set; }
+        public PaginatedList<Item> Items { get; set; } = default!;
         public string InputType { get; set; } = String.Empty;
 
-        public async Task OnGetAsync(string? type, string searchString)
+        public async Task OnGetAsync(string? type, string searchString, int? pageIndex)
         {
+            if (pageIndex == null)
+            {
+                pageIndex = 1;
+            }
             CurrentFilter = searchString;
             if (_context.Item != null)
             {
-                IList<Item> list = new List<Item>();
-                if (String.IsNullOrEmpty(searchString)) 
+                IQueryable<Item> list = _context.Item;
+                foreach(var item in list)
                 {
-                    list = await _context.Item
-                        .Include(i => i.User)
-                        .ToListAsync();
-                }
-                else
-                {
-                    list = await _context.Item
-                        .Include(i => i.User)
-                        .Where(i => i.Name.Contains(searchString))
-                        .ToListAsync();
+                    item.User = await _context.Users.FindAsync(item.UserId);
                 }
 
-                if (type == null)
+                if (!String.IsNullOrWhiteSpace(searchString)) 
                 {
-                    Item = list;
+                    list = list
+                        .Where(i => i.Name.Contains(searchString));
                 }
-                else
+
+                if (type != null)
                 {
                     //Type isn't defined
                     if (!Enum.IsDefined(typeof(FileType), type))
@@ -49,13 +46,13 @@ namespace OfficialProject3.Pages.Files
                         return;
                     }
                     InputType = type;
-                    Item = list.Where(i => i.Type.ToString() == type).ToList();
+                    list = list.Where(i => i.Type == (FileType)Enum.Parse(typeof(FileType), type));
                 }
+                //Declare items per page
+                var pageSize = 4;
+                Items = await PaginatedList<Item>.CreateAsync(
+                    list, pageIndex ?? 1, pageSize);
             }
         }
-        //public async Task OnPostAsync(string? filterString)
-        //{
-
-        //}
     }
 }
