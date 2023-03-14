@@ -38,6 +38,8 @@ namespace OfficialProject3.Pages.Reports
                 Report = report;
                 Report.Reporter = await _context.Users.Where(u => u.Id == Report.UserId).FirstOrDefaultAsync();
                 Report.ReportedComment = await _context.Comment.Where(c => c.Id == Report.CommentId).FirstOrDefaultAsync();
+                Report.ItemId = Report.ReportedComment.ItemId;
+                
             }
             return Page();
         }

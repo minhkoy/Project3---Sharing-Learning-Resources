@@ -5,9 +5,9 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Chỉnh sửa thông tin tài liệu</h1>
 
-<h4>Item</h4>
+<h4>@Model.Item.Name</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -26,7 +26,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="Item.Type" class="control-label"></label>
-                <select asp-for="Item.Type" class="form-control"></select>
+                <select asp-for="Item.Type" class="form-select">
+                    @foreach (var type in Model.TypeList)
+                    {
+                        var textStyle = (type.Value == null ? "text-muted" : String.Empty);
+                        <option value="@type.Value" class=@textStyle>
+                            @type.Text
+                        </option>
+                    }
+                </select>
                 <span asp-validation-for="Item.Type" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -34,25 +42,17 @@
                 <input asp-for="Item.SubjectCode" class="form-control" />
                 <span asp-validation-for="Item.SubjectCode" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Item.FileLink" class="control-label"></label>
-                <input asp-for="Item.FileLink" class="form-control" />
-                <span asp-validation-for="Item.FileLink" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Item.UserId" class="control-label"></label>
-                <select asp-for="Item.UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                <span asp-validation-for="Item.UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <input type="hidden" asp-for="Item.FileLink" value="@Model.Item.FileLink" />
+            <input type="hidden" asp-for="Item.UserId" value="@Model.Item.UserId" />
+            <div class="form-group mt-2">
+                <input type="submit" value="Lưu lại" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index" asp-route-type="@Model.Item.Type">Back to List</a>
+    <a asp-page="./Index" asp-route-type="@Model.Item.Type">Trở về danh sách các tài liệu @Model.Item.Type</a>
 </div>
 
 @section Scripts {

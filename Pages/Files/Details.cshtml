@@ -51,11 +51,23 @@
             @Html.DisplayFor(model => model.Item.User.Name)
         </dd>
         <dt class="col-sm-2">
+            Số lượt xem:
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Item.ViewedCount <i class="bi bi-eye-fill"></i>
+        </dd>
+        <dt class="col-sm-2">
+            Số lượt tải xuống:
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Item.DownloadedCount <i class="bi bi-download"></i>
+        </dd>
+        <dt class="col-sm-2">
             Xem tài liệu: 
         </dt>
         <dd>
-            <iframe src="https://onedrive.live.com/edit.aspx?action=editnew&resid=34969B307C2E6C79!107&ithint=file%2cdocx&action=editnew&ct=1678360714590&wdNewAndOpenCt=1678360714590&wdPreviousSession=c191acaf-20de-4146-8e60-2edbcf96395e&wdOrigin=OFFICECOM-WEB.MAIN.NEW"
-                    height="750" style="border: none;" class="w-100"></iframe>
+            <iframe src="https://onedrive.live.com/embed?cid=34969B307C2E6C79&resid=34969B307C2E6C79%21117&authkey=ANLM_ogiYiafpgI&em=2" 
+            height="708" frameborder="0" scrolling="no" class="w-100"></iframe>
         </dd>
     </dl>
 </div>
@@ -66,9 +78,17 @@
             <i class="bi bi-pencil"></i> Sửa thông tin tài liệu
         </a>
     }
+
+    @if (userId == Model.Item.UserId || User.IsInRole("Admin"))
+    {
+        <a asp-page="./Delete" asp-route-id="@Model.Item?.Id" class="btn btn-danger">
+            <i class="bi bi-trash3-fill"></i> Xóa tài liệu này
+        </a>
+    }
     <a asp-page="./Index" asp-route-type="@Model.Item?.Type" class="btn btn-info">
         <i class="bi bi-arrow-90deg-left"></i> Trở về danh sách
     </a>
+
     @if (authen)
     {
         <a class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reportFile">
@@ -132,7 +152,10 @@
 <div>
     @if (authen)
     {
-        <a class="btn btn-primary mt-2" href="@Model.Item?.FileLink">Tải xuống</a>
+        <a class="btn btn-primary mt-2" href="https://1drv.ms/b/s!AnlsLnwwm5Y0dSvdpAAdt5aJAOY?e=CeAxHV"
+        target="_blank">
+            Tải xuống
+        </a>
     }
     else
     {
@@ -174,7 +197,7 @@
                     <button href="#" class="btn btn-link text-danger m-1" id="@comment.Id"
                             asp-page-handler="DeleteComment" asp-route-commentId="@comment.Id"
                     >Xóa bình luận</button>
-                    <a class="text-primary m-1">Chỉnh sửa...</a>
+                    <a class="text-primary m-1 editCmt_btn">Chỉnh sửa...</a>
                 </form>
             }
             @if (authen && userId != comment.UserId)

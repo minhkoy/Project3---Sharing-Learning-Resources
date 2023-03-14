@@ -19,5 +19,6 @@ namespace OfficialProject3.Models
         [Display(Name = "Số lượt bị báo cáo")]
         public int ReportedCount { get; set; }
         public List<Item> Items { get; set; }
+        public bool IsRemoved { get; set; } = false;
     }
 }
