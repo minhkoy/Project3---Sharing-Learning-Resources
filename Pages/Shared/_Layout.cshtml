@@ -54,7 +54,7 @@
 
     <div class="container">
         <footer class="border-top footer text-muted">
-            Wanna upload some benefitable learning resources? You can upload it <a asp-area="" asp-page="/Files/Create">here</a> and get some points!
+            Số người đang online hiện tại: <span class="fw-bold" id="usersOnline"></span>.
             &copy; @DateTime.Now.Year - Official Project 3 - <a asp-area="" asp-page="/Privacy">About me</a>
         </footer>
     </div>
@@ -62,7 +62,8 @@
     <script src="~/lib/jquery/jquery"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" type="text/javascript" asp-append-version="true"></script>
-    @*<script src="~/js/GetUserOnline.js" asp-append-version="true"></script>*@
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/GetUserOnline.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

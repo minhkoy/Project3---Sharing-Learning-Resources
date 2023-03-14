@@ -24,7 +24,7 @@ namespace OfficialProject3.Pages.Files
         [BindProperty]
         public Report CommentReport { get; set; } = default!;
         [BindProperty]
-        public Report FileReport { get; set; }
+        public Report FileReport { get; set; } = default!;
         [BindProperty]
         public Comment Comment { get; set; } = default!;
         public IList<Comment> CommentList { get; set; } = default!;
@@ -51,31 +51,23 @@ namespace OfficialProject3.Pages.Files
             else
             {
                 Item = item;
+                Item.ViewedCount++;
+                await _context.SaveChangesAsync();
             }
             var filePath = Item.FileLink;
-            //if (System.IO.File.Exists(filePath))
-            //{
-
-            //}
+            if (System.IO.File.Exists(filePath))
+            {
+                
+            }
             return Page();
         }
-        public async Task<IActionResult> OnPostCreateCommentAsync(int id, string? commentId)
+        public async Task<IActionResult> OnPostCreateCommentAsync(int? id, string? commentId)
         {
-            if (id == 0 || _context.Item == null)
+            if (id == null || _context.Item == null)
             {
                 return Page();
             }
             await OnGetAsync(id);
-            //Item = await _context.Item.FirstOrDefaultAsync(m => m.Id == id);
-            //CommentList = _context.Comment.Where(c => c.ItemId == id).OrderByDescending(c => c.CommentDate).ToList();
-            //foreach (var comment in CommentList)
-            //{
-            //    comment.User = _context.Users.Where(u => comment.UserId == u.Id).FirstOrDefault();
-            //}
-            /*if (!ModelState.IsValid)
-            {
-                return Page();
-            } */
             Comment.Id = Guid.NewGuid().ToString();
             _context.Comment.Add(Comment);
             
@@ -100,9 +92,7 @@ namespace OfficialProject3.Pages.Files
                 _context.Report.RemoveRange(relatedReports);
                 await _context.SaveChangesAsync();
             }
-
             return RedirectToPage();
-            //return LocalRedirect($"/{Item.Id}");
         }
         public async Task<IActionResult> OnPostReportCommentAsync(int id)
         {
@@ -110,6 +100,14 @@ namespace OfficialProject3.Pages.Files
             await _context.SaveChangesAsync();
             await OnGetAsync(id);
             Console.WriteLine($"REPORT: {CommentReport.Content}");
+            return RedirectToPage();
+        }
+        public async Task<IActionResult> OnPostReportFile(int id)
+        {
+            _context.Report.Add(FileReport); 
+            await _context.SaveChangesAsync();
+            await OnGetAsync(id);
+            Console.WriteLine($"REPORT: {FileReport.Content}");
             return RedirectToPage();
         }
     }

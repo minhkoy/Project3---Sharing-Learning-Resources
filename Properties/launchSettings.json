@@ -34,11 +34,23 @@
         "ASPNETCORE_URLS": "https://localhost:7232;http://localhost:5210"
       },
       "distributionName": ""
+    },
+    "IIS": {
+      "commandName": "IIS",
+      "launchBrowser": true,
+      "launchUrl": "https://localhost/OfficialProject3",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
   },
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "https://localhost:44322/",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:41438",
       "sslPort": 44322

@@ -23,13 +23,13 @@ namespace OfficialProject3.Models
         [Display(Name = "Mô tả")]
         public string Description { get; set; } = String.Empty;
         [Display(Name = "Phân loại")]
-        public FileType Type { get; set; }
-        [NotMapped]
+        public FileType Type { get; set; } = FileType.Basic;
+        //[NotMapped]
         [Display(Name = "Số lượt xem")]
-        public int ViewedCount { get; } = 0;
-        [NotMapped]
+        public int ViewedCount { get; set; } = 0;
+        //[NotMapped]
         [Display(Name = "Số lượt tải về")]
-        public int DownloadedCount { get; } = 0;
+        public int DownloadedCount { get; set; } = 0;
         [Display(Name = "Mã môn học")]
         [ForeignKey("Mã môn học")]
         public string SubjectCode { get; set; } = String.Empty;
@@ -37,16 +37,17 @@ namespace OfficialProject3.Models
         public string? FileLink { get; set; } = String.Empty;
         [ForeignKey("User")]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public string UserId { get; set; }
+        public string UserId { get; set; } = String.Empty;
         [Display(Name = "Tác giả")]
         //Navigation props
-        public User User { get; set; }
+        public User? User { get; set; } = null;
         public Item() { }
         public Item(string name, string description, FileType type,
             string subjectCode, string fileLink, string userId)
         {
             Random rand = new Random();
             Id = rand.Next(100000000);
+            //Id = new Guid().ToString();
             Name = name;
             Description = description;
             Type = type;
