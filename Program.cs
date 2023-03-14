@@ -12,7 +12,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<User>(
+    options => options.SignIn.RequireConfirmedAccount = true
+    )
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 /*builder.Services.AddRazorPages(options =>
@@ -34,6 +36,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/Admin", "AdminPolicy");
+    
 });
 
 builder.Services.AddSignalR();
@@ -42,8 +45,8 @@ builder.Services.Configure<IdentityOptions>(options =>
 {
     //Account settings
     options.User.RequireUniqueEmail = true;
-    options.SignIn.RequireConfirmedAccount = true;
-
+    options.SignIn.RequireConfirmedAccount = false;
+    
 });
 
 var app = builder.Build();
@@ -73,48 +76,44 @@ app.UseAuthorization();
     pattern: "Admin/"
 ); */
 
-//var comments = app.MapGroup("/comments");
-//comments.MapGet("/", async (ApplicationDbContext context) =>
-//{
-//    return await context.Comment.ToListAsync();
-//    //return context.Comment;
-//});
+var comments = app.MapGroup("/comments");
+comments.MapGet("/", async (ApplicationDbContext context) =>
+{
+    return await context.Comment.ToListAsync();
+    //return context.Comment;
+});
 
-//comments.MapGet("/{id}", async (string id, ApplicationDbContext context) =>
-//{
-//    var comment = await context.Comment.FindAsync(id);
-//    if (comment == null) return Results.NotFound();
-//    else return Results.Ok(comment);
-//});
+comments.MapGet("/{id}", async (string id, ApplicationDbContext context) =>
+{
+    var comment = await context.Comment.FindAsync(id);
+    if (comment == null) return Results.NotFound();
+    else return Results.Ok(comment);
+});
 
-//comments.MapPost("/", async (Comment comment, ApplicationDbContext context) =>
-//{
-//    context.Comment.Add(comment);
-//    await context.SaveChangesAsync();
-//    return Results.Created($"/comments/{comment.Id}", comment);
-//});
+comments.MapPost("/", async (Comment comment, ApplicationDbContext context) =>
+{
+    context.Comment.Add(comment);
+    await context.SaveChangesAsync();
+    return Results.Created($"/comments/{comment.Id}", comment);
+});
 
-//comments.MapPatch("/{vote}", [ValidateAntiForgeryToken] async (string id, string vote, ApplicationDbContext context) =>
-//{
-//    var comment = await context.Comment.FindAsync(id);
-//    if (comment == null) return Results.NotFound();
-//    if (vote.Equals("upvote"))
-//    {
-//        comment.Upvote++;
-//        await context.SaveChangesAsync();
-//        return Results.Ok(comment);
-//    }
-//    else if (vote.Equals("downvote"))
-//    {
-//        comment.Downvote++;
-//        await context.SaveChangesAsync();
-//        return Results.Ok(comment);
-//    }
-//    else
-//    {
-//        return Results.NotFound();
-//    }
-//});
+comments.MapGet("/upvote", async (string id, ApplicationDbContext context) =>
+{
+    var comment = await context.Comment.FindAsync(id);
+    if (comment == null) return Results.NotFound();
+    comment.Upvote++;
+    await context.SaveChangesAsync();
+    return Results.Ok(comment);
+});
+
+comments.MapGet("/downvote", async (string id, ApplicationDbContext context) =>
+{
+    var comment = await context.Comment.FindAsync(id);
+    if (comment == null) return Results.NotFound();
+    comment.Downvote++;
+    await context.SaveChangesAsync();
+    return Results.Ok(comment);
+});
 
 //comments.MapDelete("/{id}", async (ApplicationDbContext db, int id) =>
 //{

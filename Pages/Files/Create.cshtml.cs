@@ -59,7 +59,8 @@ namespace OfficialProject3.Pages.Files
                 }
 
                 var filePath = Path.Combine(dirPath, file.FileName);
-                if (!new string[]{"DOC", "DOCX", "PDF", "TXT", "PPT", "PPTX"}.Contains(Path.GetExtension(filePath).ToUpper())) {
+                var p = Path.GetExtension(filePath).ToUpper();
+                if (!new string[]{".DOC", ".DOCX", ".PDF", ".TXT", ".PPT", ".PPTX"}.Contains(Path.GetExtension(filePath).ToUpper())) {
                     ModelState.AddModelError(key: "File", errorMessage: "Chỉ chấp nhận các file có định dạng DOC, DOCX, PDF, TXT, PPT, PPTX");
                     return Page();
                 }
@@ -76,9 +77,9 @@ namespace OfficialProject3.Pages.Files
                 using (var transaction = _context.Database.BeginTransaction())
                 {
                     _context.Item.Add(item);
-                    _context.Database.ExecuteSql($"SET IDENTITY_INSERT Item ON");
+                   // _context.Database.ExecuteSql($"SET IDENTITY_INSERT Item ON");
                     await _context.SaveChangesAsync();
-                    _context.Database.ExecuteSql($"SET IDENTITY_INSERT Item OFF");
+                   // _context.Database.ExecuteSql($"SET IDENTITY_INSERT Item OFF");
                     transaction.Commit();
                 }
                 return Redirect("/Index");

@@ -63,7 +63,7 @@ namespace OfficialProject3.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
+            
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
@@ -89,6 +89,9 @@ namespace OfficialProject3.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, "Đăng nhập thất bại.");
                     return Page();
                 }
+                //if (result.IsNotAllowed)
+                //ModelState.AddModelError(string.Empty, "Đăng nhập thất bại.");
+                //return Page();
             }
 
             // If we got this far, something failed, redisplay form

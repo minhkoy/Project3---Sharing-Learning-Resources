@@ -41,15 +41,16 @@
                 @Html.DisplayFor(modelItem => item.ReportType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ReportedItem.FileLink)
+                <a asp-page="/Files/Details" asp-route-id="@item.ItemId">
+                @Html.DisplayFor(modelItem => item.ReportedItem.Id)
+                </a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ReportedComment.Id)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./Details" asp-route-id="@item.Id">Chi tiết</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Xóa</a>
             </td>
         </tr>
 }

@@ -14,9 +14,11 @@
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
             </svg>
         </span>
-        <input type="text" class="form-control" placeholder="Tìm kiếm" 
-        aria-label="Input group example" aria-describedby="basic-addon1">
-        <input type="submit" class="btn btn-light" id="search_btn" value="Tìm kiếm" />
+        <input type="text" class="form-control" asp-for="SearchString" placeholder="Tìm kiếm...">
+        <a class="btn btn-light" id="search_btn" asp-page="/Files/Index"
+            asp-route-searchString="@Model.SearchString">
+            Tìm kiếm
+        </a>
     </div>
     <hr />
     <section id="basic_section">
@@ -27,28 +29,27 @@
             <div class="col text-end">
                 <p class="bold"><a class="text-decoration-none" asp-page="/Files/Index" asp-route-type="Basic">Xem tất cả...</a></p>
             </div>
-            <div class="flex-container flex-wrap">
+            <div class="flex-container flex-wrap justify-content-center">
                 <figure class="figure flex-item">
-                    <img src="~/images/banmoto1.png"
+                    <img src="~/images/pptx_icon.png"
                          alt="A generic square placeholder image with rounded corners in a figure."
                          width="200" height="210" />
                     <figcaption class="text-center"><a asp-page="ItemDetail">Môn Toán</a></figcaption>
-                    @*<figcaption class="text-center"><a asp-page="/Basic/Math">Môn Toán</a></figcaption>*@
                 </figure>
                 <figure class="figure flex-item">
-                    <img src="~/images/banmoto1.png"
+                    <img src="~/images/docx_icon.png"
                          alt="A generic square placeholder image with rounded corners in a figure."
                          width="200" height="210" />
                     <figcaption class="text-center"><a asp-page="/Basic/English">Môn Tiếng Anh</a></figcaption>
                 </figure>
                 <figure class="figure flex-item">
-                    <img src="~/images/Road for motorcycles1.png"
+                    <img src="~/images/docx_icon.png"
                          alt="A generic square placeholder image with rounded corners in a figure."
                          width="200" height="210" />
                     <figcaption class="text-center"><a asp-page="/Basic/Philosophy">Môn Triết học</a></figcaption>
                 </figure>
                 <figure class="figure flex-item">
-                    <img src="~/images/test2.jpg" 
+                    <img src="~/images/pdf_icon.png" 
                     alt="A generic square placeholder image with rounded corners in a figure."
                          width="200" height="210" />
                     <figcaption class="text-center"><a asp-page="/Basic/ChineseTaipei">Môn Chinese Taipei</a></figcaption>
@@ -80,5 +81,5 @@
         </div>
         <div class="row">
         </div>
-    </section>
+    </section
 </div>

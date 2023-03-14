@@ -19,10 +19,16 @@ namespace OfficialProject3.Pages.Files
         {
             _context = context;
         }
+        public List<SelectListItem> TypeList { get; } = new List<SelectListItem>
+            {
+                new SelectListItem {Value = null, Disabled = true, Text = "Chọn thể loại tài liệu... "},
+                new SelectListItem {Value = FileType.Basic.ToString(), Text = "Đại cương"},
+                new SelectListItem {Value = FileType.BasicIT.ToString(), Text = "Cơ sở ngành CNTT"},
+                new SelectListItem {Value = FileType.AdvancedIT.ToString(), Text = "Chuyên ngành IT"}
+            };
 
         [BindProperty]
         public Item Item { get; set; } = default!;
-
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.Item == null)
@@ -36,7 +42,7 @@ namespace OfficialProject3.Pages.Files
                 return NotFound();
             }
             Item = item;
-           ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return Page();
         }
 

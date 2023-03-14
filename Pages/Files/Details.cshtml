@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Chi tiết tài liệu";
+    ViewData["CommentId"] = Model.CommentId;
     Layout = "~/Pages/Shared/_Layout.cshtml";
     bool authen = SignInManager.IsSignedIn(User); //(bool)ViewData["isAuthen"];
     var user = UserManager.GetUserAsync(User);
@@ -17,7 +18,7 @@
     return;
 }
 <div>
-    <h4>Chi tiết tài liệu</h4>
+    <h4>@Model.Item.Name</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -51,6 +52,18 @@
             @Html.DisplayFor(model => model.Item.User.Name)
         </dd>
         <dt class="col-sm-2">
+            Số lượt xem:
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Item.ViewedCount <i class="bi bi-eye-fill"></i>
+        </dd>
+        <dt class="col-sm-2">
+            Số lượt tải xuống:
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Item.DownloadedCount <i class="bi bi-download"></i>
+        </dd>
+        <dt class="col-sm-2">
             Xem tài liệu: 
         </dt>
         <dd>
@@ -66,9 +79,17 @@
             <i class="bi bi-pencil"></i> Sửa thông tin tài liệu
         </a>
     }
+
+    @if (userId == Model.Item.UserId || User.IsInRole("Admin"))
+    {
+        <a asp-page="./Delete" asp-route-id="@Model.Item?.Id" class="btn btn-danger">
+            <i class="bi bi-trash3-fill"></i> Xóa tài liệu này
+        </a>
+    }
     <a asp-page="./Index" asp-route-type="@Model.Item?.Type" class="btn btn-info">
         <i class="bi bi-arrow-90deg-left"></i> Trở về danh sách
     </a>
+
     @if (authen)
     {
         <a class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reportFile">
@@ -132,7 +153,10 @@
 <div>
     @if (authen)
     {
-        <a class="btn btn-primary mt-2" href="@Model.Item?.FileLink">Tải xuống</a>
+        <a class="btn btn-primary mt-2" href="https://1drv.ms/b/s!AnlsLnwwm5Y0dSvdpAAdt5aJAOY?e=CeAxHV"
+        target="_blank">
+            Tải xuống
+        </a>
     }
     else
     {
@@ -147,31 +171,36 @@
 {
     @foreach (var comment in Model.CommentList)
     {
-        <div>
+        <div id="comment_@comment.Id">
             <div>
                 <span class="fw-bold mt-2 mb-1" style="margin-right: 5px;">@comment.User.Name</span>
                 <span class="text-white mt-2 mb-1">@comment.Content</span>
             </div>
-            <span class="mt-1 mb-1 upvote_btn" id="">
-                <a class="w-100 text-decoration-none text-white">
+            <span class="mt-1 mb-1" id="upvote_btn">
+                <a class="w-100 text-decoration-none text-white upvoteCmt_btn"
+                   id="@comment.Id">
                     <i class="bi bi-hand-thumbs-up"></i>
                 </a>
-                <span class="text-white">@comment.Upvote</span>
+                <span class="text-white" id="upvoteCmt_count_@comment.Id">@comment.Upvote</span>
             </span>
             <span class="mt-1 mb-1" id="downvote_btn">
-                <a href="#" class="w-100 text-decoration-none text-white" onclick="downvoteClick()">
+                <a class="w-100 text-decoration-none text-white downvoteCmt_btn"
+                    id="@comment.Id">
                     <i class="bi bi-hand-thumbs-down"></i>
                 </a>
-                <span class="text-white">@comment.Downvote</span>
+                <span class="text-white" id="downvoteCmt_count_@comment.Id">@comment.Downvote</span>
             </span>
             <span class="text-secondary m-2">@comment.CommentDate</span>
-            @if (userId == comment.UserId)
+            @if (userId == comment.UserId || User.IsInRole("Admin"))
             {
                 <form method="post" asp-page-handler="DeleteComment">
                     <button href="#" class="btn btn-link text-danger m-1" id="@comment.Id"
                             asp-page-handler="DeleteComment" asp-route-commentId="@comment.Id"
                     >Xóa bình luận</button>
-                    <a class="text-primary m-1">Chỉnh sửa...</a>
+                    @if (userId == comment.UserId)
+                    {
+                        <a class="text-primary m-1 editCmt_btn">Chỉnh sửa...</a>
+                    }
                 </form>
             }
             @if (authen && userId != comment.UserId)
@@ -226,40 +255,15 @@
                                 id="reportComment_btn"/>
                             </div>                           
                         </form>
-                        <script>
+                        @*<script>
                             document.getElementById('reportComment_btn').addEventListener('click', function() {
                                 document.getElementById('test').style.display = 'block'
                             })
-                        </script>
+                        </script>*@
                     </div>
                 </div>
             }
         </div>
-        <script>
-            //document.getElementById('@comment.Id').addEventListener('click',
-            //    function () {
-            //        fetch("/comments/upvote?" + new URLSearchParams({
-            //            id: "@comment.Id",
-            //        }), {
-            //            headers: {
-            //                "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
-            //            }
-            //        })
-
-            //            .then((response) => response.json())
-            //            .then((data) => alert(data))
-            //            .catch((error) => alert("Có lỗi " + error + " xảy ra."));
-            //        //return false;
-            //    }
-            //)
-            //document.getElementById('@comment.Id').addEventListener('click', function () {
-            //    fetch(`/comments/{@comment.Id}`, {
-            //        method: 'delete'
-            //    })
-            //        .then((response) => alert(response.status))
-            //        .catch((error) => alert("Co loi!"))
-            //})
-        </script>
     }
 }
 
@@ -281,3 +285,6 @@
 else {
     <p class="text-info fw-bold">Bạn phải đăng nhập để có thể bình luận</p>
 }
+<script>
+    document.getElementById(`comment_@ViewData["CommentId"]`).focus()
+</script>
