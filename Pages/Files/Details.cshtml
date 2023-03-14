@@ -54,7 +54,8 @@
             Xem tài liệu: 
         </dt>
         <dd>
-            <a href=""></a>
+            <iframe src='@Model.Item.FileLink.Replace(@"\", @"\\")'
+            height="708" frameborder="0" scrolling="no" class="w-100"></iframe>
         </dd>
     </dl>
 </div>
@@ -224,9 +225,6 @@
                                 <input type="submit" class="btn btn-warning" value="Báo cáo"
                                 id="reportComment_btn"/>
                             </div>                           
-                            <div class="alert alert-success" id="test" role="alert" aria-hidden="true">
-                                Thêm báo cáo thành công!
-                            </div>
                         </form>
                         <script>
                             document.getElementById('reportComment_btn').addEventListener('click', function() {

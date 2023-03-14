@@ -52,7 +52,7 @@ namespace OfficialProject3.Pages.Files
             var file = Input.File;
             if (file != null && file.Length > 0)
             {
-                var dirPath = Path.GetFullPath("E:\\Temp");
+                var dirPath = Path.GetFullPath("D:\\VisualStudioFiles\\source\\repos\\--ASP.NET--\\Project3\\wwwroot\\docs");
                 if (!Directory.Exists(dirPath))
                 {
                     Directory.CreateDirectory(dirPath);
