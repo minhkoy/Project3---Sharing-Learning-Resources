@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Chi tiết tài liệu";
+    ViewData["CommentId"] = Model.CommentId;
     Layout = "~/Pages/Shared/_Layout.cshtml";
     bool authen = SignInManager.IsSignedIn(User); //(bool)ViewData["isAuthen"];
     var user = UserManager.GetUserAsync(User);
@@ -17,7 +18,7 @@
     return;
 }
 <div>
-    <h4>Chi tiết tài liệu</h4>
+    <h4>@Model.Item.Name</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -170,8 +171,7 @@
 {
     @foreach (var comment in Model.CommentList)
     {
-        <input type="hidden" id="comment_@comment.Id" value="" />
-        <div>
+        <div id="comment_@comment.Id">
             <div>
                 <span class="fw-bold mt-2 mb-1" style="margin-right: 5px;">@comment.User.Name</span>
                 <span class="text-white mt-2 mb-1">@comment.Content</span>
@@ -191,13 +191,16 @@
                 <span class="text-white" id="downvoteCmt_count_@comment.Id">@comment.Downvote</span>
             </span>
             <span class="text-secondary m-2">@comment.CommentDate</span>
-            @if (userId == comment.UserId)
+            @if (userId == comment.UserId || User.IsInRole("Admin"))
             {
                 <form method="post" asp-page-handler="DeleteComment">
                     <button href="#" class="btn btn-link text-danger m-1" id="@comment.Id"
                             asp-page-handler="DeleteComment" asp-route-commentId="@comment.Id"
                     >Xóa bình luận</button>
-                    <a class="text-primary m-1 editCmt_btn">Chỉnh sửa...</a>
+                    @if (userId == comment.UserId)
+                    {
+                        <a class="text-primary m-1 editCmt_btn">Chỉnh sửa...</a>
+                    }
                 </form>
             }
             @if (authen && userId != comment.UserId)
@@ -282,3 +285,6 @@
 else {
     <p class="text-info fw-bold">Bạn phải đăng nhập để có thể bình luận</p>
 }
+<script>
+    document.getElementById(`comment_@ViewData["CommentId"]`).focus()
+</script>

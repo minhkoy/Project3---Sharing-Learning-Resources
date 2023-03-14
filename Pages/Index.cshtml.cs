@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace OfficialProject3.Pages
 {
@@ -18,5 +19,7 @@ namespace OfficialProject3.Pages
             ViewCount++;
             Views = ViewCount;
         }
+        [BindProperty]
+        public string? SearchString { get; set; }
     }
 }

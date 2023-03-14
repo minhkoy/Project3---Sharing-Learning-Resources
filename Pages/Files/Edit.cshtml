@@ -46,13 +46,18 @@
             <input type="hidden" asp-for="Item.UserId" value="@Model.Item.UserId" />
             <div class="form-group mt-2">
                 <input type="submit" value="Lưu lại" class="btn btn-primary" />
+                <a class="btn btn-secondary" asp-page="/Files/Details" asp-route-id="@Model.Item.Id">
+                    Xem chi tiết tài liệu</a>
             </div>
         </form>
+    </div>
+    <div class="col-md-8">
+        
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index" asp-route-type="@Model.Item.Type">Trở về danh sách các tài liệu @Model.Item.Type</a>
+    <a asp-page="./Index" asp-route-type="@Model.Item.Type">Trở về danh sách các tài liệu @Html.DisplayFor(model => model.Item.Type)</a>
 </div>
 
 @section Scripts {
