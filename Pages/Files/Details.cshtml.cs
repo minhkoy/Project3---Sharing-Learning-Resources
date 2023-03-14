@@ -20,6 +20,7 @@ namespace OfficialProject3.Pages.Files
             _environment = environment;
             _userManager = userManager;
         }
+        public string? CommentId { get; set; }
         public Item? Item { get; set; } = default!;
         [BindProperty]
         public Report CommentReport { get; set; } = default!;
@@ -28,7 +29,7 @@ namespace OfficialProject3.Pages.Files
         [BindProperty]
         public Comment Comment { get; set; } = default!;
         public IList<Comment> CommentList { get; set; } = default!;
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, string? commentId)
         {
             if (id == null || _context.Item == null)
             {
@@ -50,6 +51,7 @@ namespace OfficialProject3.Pages.Files
             }
             else
             {
+                CommentId = commentId;
                 Item = item;
                 Item.ViewedCount++;
                 await _context.SaveChangesAsync();
@@ -67,7 +69,7 @@ namespace OfficialProject3.Pages.Files
             {
                 return Page();
             }
-            await OnGetAsync(id);
+            await OnGetAsync(id, null);
             Comment.Id = Guid.NewGuid().ToString();
             _context.Comment.Add(Comment);
             
@@ -77,7 +79,7 @@ namespace OfficialProject3.Pages.Files
         }
         public async Task<IActionResult> OnPostDeleteCommentAsync(int id, string? commentId)
         {
-            await OnGetAsync(id);    
+            await OnGetAsync(id, null);    
             if (commentId == null || _context.Comment == null)
             {
                 return NotFound();
@@ -98,7 +100,7 @@ namespace OfficialProject3.Pages.Files
         {
             _context.Report.Add(CommentReport);
             await _context.SaveChangesAsync();
-            await OnGetAsync(id);
+            await OnGetAsync(id, null);
             Console.WriteLine($"REPORT: {CommentReport.Content}");
             return RedirectToPage();
         }
@@ -106,7 +108,7 @@ namespace OfficialProject3.Pages.Files
         {
             _context.Report.Add(FileReport); 
             await _context.SaveChangesAsync();
-            await OnGetAsync(id);
+            await OnGetAsync(id, null);
             Console.WriteLine($"REPORT: {FileReport.Content}");
             return RedirectToPage();
         }
