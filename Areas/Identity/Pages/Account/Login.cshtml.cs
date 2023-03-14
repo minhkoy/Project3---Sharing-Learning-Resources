@@ -84,9 +84,14 @@ namespace OfficialProject3.Areas.Identity.Pages.Account
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
-                if (result.IsNotAllowed)
-                ModelState.AddModelError(string.Empty, "Đăng nhập thất bại.");
-                return Page();
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Đăng nhập thất bại.");
+                    return Page();
+                }
+                //if (result.IsNotAllowed)
+                //ModelState.AddModelError(string.Empty, "Đăng nhập thất bại.");
+                //return Page();
             }
 
             // If we got this far, something failed, redisplay form
